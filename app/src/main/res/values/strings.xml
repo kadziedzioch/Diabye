@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Diabye</string>
+    <string name="content_description">image</string>
+    <string name="title_login">LOGIN</string>
+    <string name="et_hint_email_id">Email</string>
+    <string name="et_hint_password">Password</string>
+    <string name="lbl_forgot_password">Forgot Password?</string>
+    <string name="btn_lbl_login">Login</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="register"><u>Register</u></string>
+    <string name="create_account_tv">CREATE AN ACCOUNT</string>
+    <string name="personNameHint">First Name</string>
+    <string name="confirm_pass_hint">Confirm Password</string>
+    <string name="btn_register">Register</string>
+    <string name="have_an_account_text">Already have an account?</string>
+    <string name="login_text">Login</string>
+
+    <string name="enter_name_text">"Enter your name!"</string>
+    <string name="enter_pass_text">"Enter your password!"</string>
+    <string name="enter_email_text">"Enter your email!"</string>
+    <string name="enter_confirm_pass_text">"Enter confirm password!"</string>
+    <string name="pass_cofirmpass_dont_match">"Password and confirm password doesn't match!"</string>
+    <string name="register_successful">Register is successful!</string>
+    <string name="register_unsuccessful">Something went wrong! Try again.</string>
+
+    <string name="login_successful">Login is successful!</string>
+    <string name="forgot_pass_text">FORGOT PASSWORD? NO PROBLEM!</string>
+    <string name="forgot_pass_info">Enter your email and we will send you a link to reset your password</string>
+    <string name="send_pass_text">Send</string>
+</resources>

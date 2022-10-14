@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "129558357236",
+    "project_id": "diabye-f3c5b",
+    "storage_bucket": "diabye-f3c5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129558357236:android:842e75326ac62c7f7ceaa1",
+        "android_client_info": {
+          "package_name": "com.example.diabye"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129558357236-dmcps66n44uqot7rvnccef78kl52mdgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diabye",
+            "certificate_hash": "9feddfece75f8b77a9946420b4b7b0b87129d4e7"
+          }
+        },
+        {
+          "client_id": "129558357236-ijpb291tlfd1cqnh4irmhuepkvfgcdqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWO9oluASdHkrctAKF2D_AD2E0hxOWkzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129558357236-ijpb291tlfd1cqnh4irmhuepkvfgcdqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
