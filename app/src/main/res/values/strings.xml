@@ -27,4 +27,6 @@
     <string name="forgot_pass_text">FORGOT PASSWORD? NO PROBLEM!</string>
     <string name="forgot_pass_info">Enter your email and we will send you a link to reset your password</string>
     <string name="send_pass_text">Send</string>
+
+    <string name="email_sent_text">Email has been sent. You should check out your mailbox.</string>
 </resources>

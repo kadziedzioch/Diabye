@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         binding.loginButton.setOnClickListener(this);
         binding.registerTextView.setOnClickListener(this);
+        binding.forgotPassTextView.setOnClickListener(this);
 
 
     }
@@ -86,6 +87,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case R.id.loginButton:
                     AppUtils.hideKeyboard(view);
                     loginUser();
+                    break;
+                case R.id.forgotPassTextView:
+                    startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
                     break;
             }
         }
