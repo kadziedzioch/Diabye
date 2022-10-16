@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Diabye"
         tools:targetApi="31">
         <activity
+            android:name=".activities.UserSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity

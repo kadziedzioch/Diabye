@@ -41,7 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
                 binding.registerProgressBar.setVisibility(View.VISIBLE);
                 String email = binding.emailRegisterEditText.getText().toString().trim();
                 String password = binding.passRegisterEditText.getText().toString().trim();
-                registerViewModel.registerUser(email,password);
+                String name = binding.personNameEditText.getText().toString().trim();
+                registerViewModel.registerUser(email,password,name);
             }
         });
 
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else{
                 AppUtils.showMessage(RegisterActivity.this,binding.confirmPassRegisterEditText,
-                        registerViewModel.errorMessage,true);
+                        registerViewModel.getRegisterErrorMessage().getValue(),true);
             }
         });
     }

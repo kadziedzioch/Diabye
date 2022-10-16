@@ -15,11 +15,14 @@
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2265" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/drawable/ic_lock_focused.xml" value="0.2265" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/drawable/login_background.xml" value="0.2265" />
+        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/drawable/radiobutton_background.xml" value="0.2265" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_forgot_password.xml" value="0.18297101449275363" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_login.xml" value="0.16" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_main.xml" value="0.18297101449275363" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_register.xml" value="0.18297101449275363" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_splash.xml" value="0.18297101449275363" />
+        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_user_settings.xml" value="0.176" />
+        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/dialog_fill_user_info.xml" value="0.18297101449275363" />
       </map>
     </option>
   </component>

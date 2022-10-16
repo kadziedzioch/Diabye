@@ -29,4 +29,19 @@
     <string name="send_pass_text">Send</string>
 
     <string name="email_sent_text">Email has been sent. You should check out your mailbox.</string>
+    <string name="complete_your_profile_text">COMPLETE YOUR PROFILE</string>
+    <string name="pens_syringes_text">PENS/SYRINGES</string>
+    <string name="pump_text">PUMP</string>
+    <string name="therapy_type_text">What kind of therapy do you use?</string>
+    <string name="hyperglycemia_and_hypoglycemia_text">Hyperglycemia and hypoglycemia</string>
+    <string name="hiper_et_hint">Hiper for ex. 190mg/dL</string>
+    <string name="hypo_et_hint">Hypo for ex. 70 mg/dl</string>
+    <string name="target_range_low_et_hint">Target range min. value for ex. 90 mg/dL</string>
+    <string name="target_range_high_et_hint">Target range max. value for ex. 160 mg/dl</string>
+    <string name="submit_text">SUBMIT</string>
+
+    <string name="enter_hypo_text">Enter hypo value!</string>
+    <string name="enter_hiper_text">Enter hiper value!</string>
+    <string name="enter_range_low_text">Enter minimum value of target range!</string>
+    <string name="enter_range_max_text">Enter maximum value of target range!</string>
 </resources>

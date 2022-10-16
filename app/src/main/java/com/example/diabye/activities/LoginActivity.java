@@ -15,8 +15,11 @@ import android.widget.TextView;
 import com.example.diabye.R;
 import com.example.diabye.databinding.ActivityLoginBinding;
 import com.example.diabye.databinding.ActivityRegisterBinding;
+import com.example.diabye.models.User;
+import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
 import com.example.diabye.viewmodels.LoginViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             getSupportActionBar().hide();
         }
 
+        SharedPrefRepository sharedPrefRepository = new SharedPrefRepository(this);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         loginViewModel.getIsLoginSuccessful().observe(this, new Observer<Boolean>() {
@@ -42,15 +46,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onChanged(Boolean isSuccessful) {
                 binding.loginProgressBar.setVisibility(View.INVISIBLE);
                 if(isSuccessful){
-                    AppUtils.showMessage(LoginActivity.this,binding.titleLoginTextView,
-                            getResources().getString(R.string.login_successful),false);
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    finish();
-                    startActivity(intent);
+                    User user = loginViewModel.getCurrentUser().getValue();
+                    Intent intent;
+                    if(user!=null){
+                        sharedPrefRepository.saveUserInfo(user);
+                        if (user.getIsCompleted() == 0) {
+                            intent = new Intent(LoginActivity.this,UserSettingsActivity.class);
+                        }else{
+                            intent = new Intent(LoginActivity.this,MainActivity.class);
+                        }
+                        AppUtils.showMessage(LoginActivity.this,binding.titleLoginTextView,
+                                getResources().getString(R.string.login_successful),false);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
                 else{
                     AppUtils.showMessage(LoginActivity.this,binding.titleLoginTextView,
-                            loginViewModel.errorMessage,true);
+                            loginViewModel.getErrorMessage().getValue(),true);
                 }
             }
         });
@@ -59,7 +72,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         binding.registerTextView.setOnClickListener(this);
         binding.forgotPassTextView.setOnClickListener(this);
 
-
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public boolean validateEntries(){
