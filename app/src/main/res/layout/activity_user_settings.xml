@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.UserSettingsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/complete_your_profile_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_textSize"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck"
+            tools:layout_editor_absoluteX="16dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/therapy_question_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/therapy_type_text"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/therapy_type_group"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/therapy_question_text">
+
+                <RadioButton
+                    android:id="@+id/pens_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/pens_syringes_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck" />
+
+                <RadioButton
+                    android:id="@+id/pump_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/pump_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/hiper_hypo_text_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:gravity="center"
+                android:text="@string/hyperglycemia_and_hypoglycemia_text"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/therapy_type_group" />
+
+            <EditText
+                android:id="@+id/hyper_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_up_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/hiper_et_hint"
+                android:inputType="number"
+                android:padding="@dimen/et_padding"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hiper_hypo_text_info"
+                tools:ignore="TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/low_range_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_baseline_gpp_good_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/target_range_low_et_hint"
+                android:inputType="number"
+                android:padding="@dimen/et_padding"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hyper_editText"
+                tools:ignore="TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/high_range_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_baseline_gpp_good_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/target_range_high_et_hint"
+                android:inputType="number"
+                android:padding="@dimen/et_padding"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/low_range_editText"
+                tools:ignore="TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/hypo_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:drawablePadding="10dp"
+                android:hint="@string/hypo_et_hint"
+                android:inputType="number"
+                android:padding="@dimen/et_padding"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/et_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/high_range_editText"
+                tools:ignore="TextContrastCheck" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submitUserSettingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:paddingTop="@dimen/btn_padding"
+                android:paddingBottom="@dimen/btn_padding"
+                android:text="@string/submit_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/btn_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hypo_editText"
+                tools:ignore="TextContrastCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

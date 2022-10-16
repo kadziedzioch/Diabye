@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="360"
+                android:endColor="@color/darker_blue"
+                android:startColor="@color/very_dark_blue"
+                android:type="linear"/>
+            <corners
+                android:radius="@dimen/corner_button_radius"/>
+        </shape>
+    </item>
+
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="360"
+                android:endColor="@color/lighter_blue"
+                android:startColor="@color/main_blue"
+                android:type="linear"/>
+            <corners
+                android:radius="@dimen/corner_button_radius"/>
+        </shape>
+    </item>
+
+</selector>
