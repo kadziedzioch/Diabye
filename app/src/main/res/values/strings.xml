@@ -44,4 +44,19 @@
     <string name="enter_hiper_text">Enter hiper value!</string>
     <string name="enter_range_low_text">Enter minimum value of target range!</string>
     <string name="enter_range_max_text">Enter maximum value of target range!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_portion_text">Enter your portion size</string>
+    <string name="add_text">add</string>
+    <string name="add_food_text">Add food</string>
+    <string name="calories_text">Calories</string>
+    <string name="fats_amp_protein_text"><![CDATA[Fats & protein]]></string>
+    <string name="carbs_text">Carbs</string>
+    <string name="activity_text">Activity</string>
+    <string name="pressure_text">Pressure</string>
+    <string name="temp_basal_text">Temp. basal</string>
+    <string name="corr_insulin_text">Corr. insulin</string>
+    <string name="meal_insulin_text">Meal insulin</string>
+    <string name="sugar_level_text">Sugar level</string>
+    <string name="date_and_time_text">Date and time</string>
 </resources>

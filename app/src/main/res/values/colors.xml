@@ -16,4 +16,5 @@
     <color name="title_text_color">#5E5C5C</color>
     <color name="error_background_color">#F85050</color>
     <color name="success_background_color">#ADDC77</color>
+    <color name="light_gray">#CFD0D1</color>
 </resources>
