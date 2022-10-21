@@ -12,6 +12,9 @@ public class UserSettings {
     private double hyperValue;
     private String userId;
 
+    public UserSettings(){
+
+    }
 
     public UserSettings(double lowSugarRangeLevel, double highSugarRangeLevel, double hypoValue, double hyperValue, String userId) {
         this.lowSugarRangeLevel = lowSugarRangeLevel;

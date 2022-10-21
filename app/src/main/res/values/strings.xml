@@ -59,4 +59,13 @@
     <string name="meal_insulin_text">Meal insulin</string>
     <string name="sugar_level_text">Sugar level</string>
     <string name="date_and_time_text">Date and time</string>
+    <string name="min_hint">min</string>
+    <string name="mm_hg_hint">mm/Hg</string>
+    <string name="percentage_hint">%</string>
+    <string name="i_u_hint">I.U.</string>
+    <string name="mg_dl_hint">mg/dL</string>
+    <string name="long_insulin_text">Long insulin</string>
+    <string name="diastolic_pressure_text">Dias. pressure</string>
+    <string name="systolic_pressure_text">Sys. pressure</string>
+    <string name="temp_basal_time_text">Time</string>
 </resources>

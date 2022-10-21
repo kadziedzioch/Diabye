@@ -61,7 +61,6 @@
                     android:layout_weight="3"
                     android:background="#00FFFFFF"
                     android:paddingStart="10dp"
-                    android:text="17.10.2022"
                     android:textAlignment="viewStart"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp" />
@@ -72,7 +71,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:background="#00FFFFFF"
-                    android:text="17:10"
                     android:textAlignment="viewStart"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp" />
@@ -102,11 +100,12 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/sugarLevelET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint="mg/dL"
+                    android:hint="@string/mg_dl_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -139,11 +138,12 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/mealinsulinET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint=" I.U."
+                    android:hint="@string/i_u_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -176,11 +176,12 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/corrInsulinET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint=" I.U."
+                    android:hint="@string/i_u_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -191,9 +192,12 @@
             </LinearLayout>
 
 
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/tempBasalLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
 
                 <TextView
@@ -213,11 +217,92 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/tempBasalET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint="%"
+                    android:hint="@string/percentage_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tempBasalTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:paddingStart="10dp"
+                    android:text="@string/temp_basal_time_text"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_baseline_bolt_24"
+                    tools:ignore="ImageContrastCheck" />
+
+                <EditText
+                    android:id="@+id/tempBasalTimeET"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/min_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/longInsulinLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:paddingStart="10dp"
+                    android:text="@string/long_insulin_text"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_baseline_bolt_24"
+                    tools:ignore="ImageContrastCheck" />
+
+                <EditText
+                    android:id="@+id/longInsulinET"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/i_u_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -238,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
-                    android:text="@string/pressure_text"
+                    android:text="@string/systolic_pressure_text"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -250,11 +335,49 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/sys_pressureET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint="mm/Hg"
+                    android:hint="@string/mm_hg_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:paddingStart="10dp"
+                    android:text="@string/diastolic_pressure_text"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_baseline_biotech_24"
+                    tools:ignore="ImageContrastCheck" />
+
+                <EditText
+                    android:id="@+id/dias_pressureET"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/mm_hg_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -286,11 +409,12 @@
                     tools:ignore="ImageContrastCheck" />
 
                 <EditText
+                    android:id="@+id/activityET"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@android:color/transparent"
-                    android:hint="min"
+                    android:hint="@string/min_hint"
                     android:importantForAutofill="no"
                     android:inputType="number"
                     android:paddingStart="10dp"
@@ -332,7 +456,6 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="0 CHO"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp"
                     tools:ignore="RtlSymmetry" />
@@ -370,7 +493,6 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="0 FPU"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp"
                     tools:ignore="RtlSymmetry" />
@@ -408,7 +530,6 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="0 kcal"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp"
                     tools:ignore="RtlSymmetry" />
@@ -437,15 +558,31 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerViewNewEntry"
-                android:paddingBottom="60dp"/>
+                android:id="@+id/recyclerViewNewEntry" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveMeasurmentsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:paddingTop="@dimen/btn_padding"
+                android:paddingBottom="@dimen/btn_padding"
+                android:layout_marginBottom="70dp"
+                android:text="@string/submit_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/btn_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forgotPassTextView"
+                tools:ignore="TextContrastCheck" />
+
 
         </LinearLayout>
-
-
-
-
-
 
     </ScrollView>
 

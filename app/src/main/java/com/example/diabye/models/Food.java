@@ -9,6 +9,18 @@ public class Food {
     private double protein;
     private double fats;
     private double calories;
+    private String measurementId;
+
+    public Food() {
+    }
+
+    public String getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(String measurementId) {
+        this.measurementId = measurementId;
+    }
 
     public double getCalories() {
         return calories;

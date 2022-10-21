@@ -14,6 +14,9 @@ import java.util.Objects;
 public class NewEntryViewModel extends ViewModel {
 
     MutableLiveData<ArrayList<Food>> foodList = new MutableLiveData<>();
+    MutableLiveData<String> date = new MutableLiveData<>();
+    MutableLiveData<String> time = new MutableLiveData<>();
+
 
     public void addFoodToList(Food food){
         ArrayList<Food> foods = new ArrayList<>();
@@ -26,9 +29,29 @@ public class NewEntryViewModel extends ViewModel {
         foodList.postValue(foods);
     }
 
+
     public LiveData<ArrayList<Food>> getFoodList(){
         return foodList;
     }
+    public LiveData<String> getDate(){
+        return date;
+    }
+    public LiveData<String> getTime(){
+        return time;
+    }
+
+    public void addDateAndTime(String date, String time){
+        this.date.postValue(date);
+        this.time.postValue(time);
+    }
+
+    public void clearTime(){
+        this.time.postValue("");
+    }
+    public void clearDate(){
+        this.date.postValue("");
+    }
+
 
     public void deleteFood(Food food){
         ArrayList<Food> foods = new ArrayList<>();
