@@ -55,8 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }else{
                             intent = new Intent(LoginActivity.this,MainActivity.class);
                         }
-                        AppUtils.showMessage(LoginActivity.this,binding.titleLoginTextView,
-                                getResources().getString(R.string.login_successful),false);
                         startActivity(intent);
                         finish();
                     }

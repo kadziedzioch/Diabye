@@ -22,6 +22,10 @@ public class UserSettingRepository {
     }
 
 
+    public LiveData<UserSettings> getUserSettings() {
+        return userSettings;
+    }
+
     public LiveData<Boolean> getIsAddingSuccessful(){
         return isAddingSuccessful;
     }

@@ -1,6 +1,9 @@
 package com.example.diabye.models;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Food {
+    private String FoodId;
     private String foodName;
     private String brandName;
     private double portion;
@@ -11,7 +14,17 @@ public class Food {
     private double calories;
     private String measurementId;
 
+
     public Food() {
+    }
+
+    @Exclude
+    public String getFoodId() {
+        return FoodId;
+    }
+
+    public void setFoodId(String foodId) {
+        FoodId = foodId;
     }
 
     public String getMeasurementId() {

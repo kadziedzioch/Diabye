@@ -36,10 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
         navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
             if(navDestination.getId()== R.id.newEntryFragment || navDestination.getId()== R.id.searchFoodFragment){
-                bottomNavigationView.setVisibility(View.GONE);
+                if(bottomNavigationView.getVisibility()!=View.GONE){
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
             else{
-                bottomNavigationView.setVisibility(View.VISIBLE);
+                if(bottomNavigationView.getVisibility()!=View.VISIBLE){
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
