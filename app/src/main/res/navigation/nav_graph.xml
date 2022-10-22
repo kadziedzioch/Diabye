@@ -28,4 +28,9 @@
         android:name="com.example.diabye.fragments.SearchFoodFragment"
         android:label="fragment_search_food"
         tools:layout="@layout/fragment_search_food" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.diabye.fragments.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
 </navigation>

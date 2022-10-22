@@ -1,12 +1,15 @@
 package com.example.diabye.models;
 
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Measurement {
     private String measurementId;
-    private Timestamp datetime;
+    @ServerTimestamp
+    private Date datetime;
     private double sugarLevel;
     private double mealInsulin;
     private double corrInsulin;
@@ -30,11 +33,11 @@ public class Measurement {
         this.measurementId = measurementId;
     }
 
-    public Timestamp getDatetime() {
+    public Date getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Timestamp datetime) {
+    public void setDatetime(Date datetime) {
         this.datetime = datetime;
     }
 

@@ -155,7 +155,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         });
 
         mainActivityViewModel.getIsSavingSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
-            if(isSuccessful){
+            if(isSuccessful!=null&& isSuccessful){
                 if(newEntryViewModel.getFoodList().getValue() !=null){
                     newEntryViewModel.getFoodList().getValue().clear();
                 }
@@ -165,9 +165,10 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
                 if(newEntryViewModel.getDate().getValue()!=null){
                     newEntryViewModel.clearDate();
                 }
+                mainActivityViewModel.clearIsSavingSuccessful();
                 requireActivity().onBackPressed();
             }
-            else{
+            else if(isSuccessful!=null&&!isSuccessful){
                 AppUtils.showMessage(requireActivity(), binding.saveMeasurmentsButton,
                         mainActivityViewModel.getErrorMessage().getValue(),true);
             }
@@ -253,7 +254,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         String date = binding.addDateButton.getText().toString().trim();
         String datetime = date +" "+ time+":00";
         Timestamp timestamp = Timestamp.valueOf(datetime);
-        measurement.setDatetime(timestamp);
+        measurement.setDatetime(new Date(timestamp.getTime()));
 
         if(!TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()))
         {

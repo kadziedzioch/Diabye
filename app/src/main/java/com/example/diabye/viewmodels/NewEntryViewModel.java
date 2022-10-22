@@ -52,7 +52,6 @@ public class NewEntryViewModel extends ViewModel {
         this.date.postValue("");
     }
 
-
     public void deleteFood(Food food){
         ArrayList<Food> foods = new ArrayList<>();
         if(foodList.getValue()!=null){

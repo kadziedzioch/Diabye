@@ -68,4 +68,15 @@
     <string name="diastolic_pressure_text">Dias. pressure</string>
     <string name="systolic_pressure_text">Sys. pressure</string>
     <string name="temp_basal_time_text">Time</string>
+    <string name="avg_blood_glucose_text">Avg. blood glucose</string>
+    <string name="no_entry_sign">-</string>
+    <string name="attention_text">Attention</string>
+    <string name="hyper_text">Hyper</string>
+    <string name="hypo_text">Hypo</string>
+    <string name="bolus_text">Bolus</string>
+    <string name="food_text">Food</string>
+    <string name="kcal_text">kcal</string>
+    <string name="cho_text">CHO</string>
+    <string name="fpu_text">FPU</string>
+    <string name="add_entry_button_text">add new entry</string>
 </resources>

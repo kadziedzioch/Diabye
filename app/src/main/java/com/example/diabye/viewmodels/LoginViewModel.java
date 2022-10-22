@@ -18,7 +18,6 @@ public class LoginViewModel  extends ViewModel {
         isLoginSuccessful = userRepository.getIsLoginUserSuccessful();
         errorMessage = userRepository.getLoginErrorMessage();
         currentUser = userRepository.getUser();
-
     }
 
     public LiveData<Boolean> getIsLoginSuccessful(){
@@ -33,13 +32,6 @@ public class LoginViewModel  extends ViewModel {
 
     public void loginUser(String email, String password){
         userRepository.loginUser(email,password);
-//        FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
-//                .addOnSuccessListener(authResult ->{
-//                    isLoginSuccessful.postValue(true);
-//                })
-//                .addOnFailureListener(e -> {
-//                    errorMessage = e.getMessage();
-//                    isLoginSuccessful.postValue(false);
-//                });
+
     }
 }
