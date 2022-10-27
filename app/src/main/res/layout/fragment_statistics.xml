@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatisticsFragment"
+    android:id="@+id/statisticsFragment"
+    android:background="@drawable/statistics_background">
+
+    <com.example.diabye.utils.CustomSpinner
+        android:id="@+id/spinnerMeasurement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:layout_margin="16dp"
+        android:dropDownVerticalOffset="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/spinner_down_background"
+        android:elevation="10dp"/>
+
+    <com.example.diabye.utils.CustomSpinner
+        android:id="@+id/spinnerTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:minHeight="40dp"
+        android:dropDownVerticalOffset="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerMeasurement"
+        android:background="@drawable/spinner_down_background"
+        android:elevation="10dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

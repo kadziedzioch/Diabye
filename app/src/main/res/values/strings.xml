@@ -79,4 +79,19 @@
     <string name="cho_text">CHO</string>
     <string name="fpu_text">FPU</string>
     <string name="add_entry_button_text">add new entry</string>
+    <string name="sun_text">SUN</string>
+    <string name="mon_text">MON</string>
+    <string name="tue_text">TUE</string>
+    <string name="wed_text">WED</string>
+    <string name="thur_text">THUR</string>
+    <string name="fri_text">FRI</string>
+    <string name="sat_text">SAT</string>
+    <string name="previous_week_text">previous week</string>
+    <string name="next_week_text">next week</string>
+    <string name="delete_measurement_text">delete measurement</string>
+    <string name="no_measurements_this_day_text">No measurements this day</string>
+    <string name="home_text">Home</string>
+    <string name="history_text">History</string>
+    <string name="statistics_text">Statistics</string>
+    <string name="settings_text">Settings</string>
 </resources>

@@ -4,23 +4,23 @@
 
     <item
         android:id="@+id/mainFragment"
-        android:title="Home"
+        android:title="@string/home_text"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_home_24"/>
     <item
         android:id="@+id/historyFragment"
-        android:title="History"
+        android:title="@string/history_text"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_history_24"/>
 
     <item
-        android:id="@+id/statistics"
-        android:title="Statistics"
+        android:id="@+id/statisticsFragment"
+        android:title="@string/statistics_text"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_timeline_24"/>
     <item
         android:id="@+id/settings"
-        android:title="Settings"
+        android:title="@string/settings_text"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_settings_24"/>
 

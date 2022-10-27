@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="10dp"
+        app:cardElevation="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:id="@+id/timeTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/deleteMeasurementButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_delete_outline_24"
+                    android:contentDescription="@string/delete_measurement_text"
+                    tools:ignore="ImageContrastCheck,TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/blood_sugar_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_opacity_24" />
+
+            <TextView
+                android:id="@+id/mealInsulinTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_bolt_24" />
+
+            <TextView
+                android:id="@+id/corrInsulinTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_bolt_24" />
+
+            <TextView
+                android:id="@+id/longInsulinTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_bolt_24" />
+
+            <TextView
+                android:id="@+id/tempBasalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_bolt_24" />
+
+            <TextView
+                android:id="@+id/activityTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_directions_run_24" />
+
+            <TextView
+                android:id="@+id/pressureTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_biotech_24" />
+
+            <TextView
+                android:id="@+id/choTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/fpuTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/caloriesTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_fastfood_24" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

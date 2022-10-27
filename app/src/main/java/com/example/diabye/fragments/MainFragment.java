@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.diabye.R;
 import com.example.diabye.databinding.FragmentMainBinding;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
+import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.viewmodels.MainActivityViewModel;
 import com.google.firebase.Timestamp;
@@ -23,6 +25,7 @@ import com.google.firebase.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,11 +58,13 @@ public class MainFragment extends Fragment {
 
         binding = FragmentMainBinding.inflate(inflater,container,false);
         setUpView();
-
+        SharedPrefRepository sharedPrefRepository = new SharedPrefRepository(requireActivity());
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
 
-        Date today = Timestamp.now().toDate();
-        mainActivityViewModel.getMeasurements(today).observe(getViewLifecycleOwner(), measurements -> {
+        Date today = Calendar.getInstance().getTime();
+        mainActivityViewModel.setDateOfMeasurement(today);
+
+        mainActivityViewModel.getMeasurements().observe(getViewLifecycleOwner(), measurements -> {
             if(measurements!=null && measurements.size()>0){
                 double glucoseValue = calculateMeanSugar(measurements);
                 if(glucoseValue!=0){
@@ -67,6 +72,12 @@ public class MainFragment extends Fragment {
                     binding.avgGlucoseMainTv.setText(glucose);
                     calculateAndSetOtherFields(measurements);
                 }
+            }
+            else{
+                binding.bolusMainTv.setText("0");
+                binding.activityMainTv.setText("0");
+                binding.avgGlucoseMainTv.setText("-");
+                binding.pressureMainTv.setText("-");
             }
         });
 
@@ -81,13 +92,8 @@ public class MainFragment extends Fragment {
             }
 
         });
-
-        SharedPrefRepository sharedPrefRepository = new SharedPrefRepository(requireActivity());
-
         mainActivityViewModel.getUserSettings(sharedPrefRepository.getUserId());
-
         mainActivityViewModel.getHyperAndHypo().observe(getViewLifecycleOwner(), stringDoubleHashMap -> {
-
             binding.hyperMainTv.setText(String.format(Locale.getDefault(),"%.0f",stringDoubleHashMap.get("hyper")));
             binding.hypoMainTv.setText(String.format(Locale.getDefault(),"%.0f",stringDoubleHashMap.get("hypo")));
         });

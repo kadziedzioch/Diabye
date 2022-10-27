@@ -1,11 +1,15 @@
 package com.example.diabye.repositories;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
+import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.utils.Constants;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -21,6 +25,8 @@ import java.util.List;
 public class MeasurementRepository {
 
     private MutableLiveData<Boolean> isSavingSuccessful = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isDeletingSuccessful = new MutableLiveData<>();
+
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
     private MutableLiveData<List<Food>> foods = new MutableLiveData<>();
@@ -41,12 +47,16 @@ public class MeasurementRepository {
         return isSavingSuccessful;
     }
 
+    public LiveData<Boolean> getIsDeletingSuccessful() {
+        return isDeletingSuccessful;
+    }
+
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
 
-    public LiveData<List<Measurement>> getMeasurements(Date date){
+    public LiveData<List<Measurement>> getMeasurements(Date date, String userId){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -66,6 +76,7 @@ public class MeasurementRepository {
 
         List<Measurement> list = new ArrayList<>();
         mFirestore.collection(Constants.MEASUREMENTS)
+                .whereEqualTo("userId", userId)
                 .whereGreaterThan("datetime",previousDay)
                 .whereLessThan("datetime",nextDay)
                 .get()
@@ -145,5 +156,37 @@ public class MeasurementRepository {
 
     public void clearIsSavingSuccessful() {
         isSavingSuccessful.postValue(null);
+    }
+
+    public void clearIsDeletingSuccessful() {
+        isDeletingSuccessful.postValue(null);
+    }
+
+
+    public void deleteMeasurementWithFoods(MeasurementWithFoods measurementWithFoods){
+        List<Task<Void>> taskList = new ArrayList<>();
+        Task<Void> task = mFirestore.collection(Constants.MEASUREMENTS)
+                .document(measurementWithFoods.getMeasurement().getMeasurementId())
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    if(measurementWithFoods.getFoodList().size()>0){
+                        for(Food f: measurementWithFoods.getFoodList()){
+                            Task<Void> t = mFirestore.collection(Constants.FOODS)
+                                    .document(f.getFoodId())
+                                    .delete();
+                            taskList.add(t);
+                        }
+                    }
+                });
+
+        taskList.add(task);
+
+        Task<Void> allTask = Tasks.whenAll(taskList);
+        allTask.addOnSuccessListener(unused -> {
+            isDeletingSuccessful.postValue(true);
+        });
+
+
+
     }
 }
