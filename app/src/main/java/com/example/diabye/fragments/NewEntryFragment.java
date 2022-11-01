@@ -320,7 +320,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        String date = LocalDate.of(year,month,day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        String date = LocalDate.of(year,month+1,day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
         binding.addDateButton.setText(date);
     }
 

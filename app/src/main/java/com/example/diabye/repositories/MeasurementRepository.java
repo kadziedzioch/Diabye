@@ -29,6 +29,8 @@ public class MeasurementRepository {
 
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
+
+    private MutableLiveData<List<Measurement>> measurementsWithTimeInterval = new MutableLiveData<>();
     private MutableLiveData<List<Food>> foods = new MutableLiveData<>();
     private FirebaseFirestore mFirestore;
     public MeasurementRepository() {
@@ -55,6 +57,27 @@ public class MeasurementRepository {
         return errorMessage;
     }
 
+    public LiveData<List<Measurement>> getMeasurements(Date startDate,Date endDate,String userId){
+        List<Measurement> list = new ArrayList<>();
+        mFirestore.collection(Constants.MEASUREMENTS)
+                .whereEqualTo("userId", userId)
+                .whereGreaterThanOrEqualTo("datetime",startDate)
+                .whereLessThan("datetime",endDate)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                        Measurement m = queryDocumentSnapshot.toObject(Measurement.class);
+                        m.setMeasurementId(queryDocumentSnapshot.getId());
+                        list.add(m);
+                    }
+                    measurementsWithTimeInterval.postValue(list);
+                })
+                .addOnFailureListener(e -> {
+                    measurementsWithTimeInterval.postValue(null);
+                });
+
+        return measurementsWithTimeInterval;
+    }
 
     public LiveData<List<Measurement>> getMeasurements(Date date, String userId){
         Calendar cal = Calendar.getInstance();

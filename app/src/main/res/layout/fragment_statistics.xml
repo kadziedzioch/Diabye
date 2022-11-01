@@ -8,31 +8,196 @@
     android:id="@+id/statisticsFragment"
     android:background="@drawable/statistics_background">
 
-    <com.example.diabye.utils.CustomSpinner
-        android:id="@+id/spinnerMeasurement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="40dp"
-        android:layout_margin="16dp"
-        android:dropDownVerticalOffset="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/spinner_down_background"
-        android:elevation="10dp"/>
 
-    <com.example.diabye.utils.CustomSpinner
-        android:id="@+id/spinnerTime"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:minHeight="40dp"
-        android:dropDownVerticalOffset="40dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerMeasurement"
-        android:background="@drawable/spinner_down_background"
-        android:elevation="10dp"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="15dp">
+
+            <com.example.diabye.utils.CustomSpinner
+                android:id="@+id/spinnerMeasurement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/spinner_down_background"
+                android:contentDescription="@string/select_measurement_type"
+                android:dropDownVerticalOffset="40dp"
+                android:elevation="10dp"
+                android:minHeight="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.diabye.utils.CustomSpinner
+                android:id="@+id/spinnerTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/spinner_down_background"
+                android:contentDescription="@string/select_time_interval"
+                android:dropDownVerticalOffset="40dp"
+                android:elevation="10dp"
+                android:minHeight="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerMeasurement" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/statisticsCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:elevation="10dp"
+                android:visibility="gone"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerTime">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/periodNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/avgValuePerDayInfo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="5dp"
+                            android:textSize="16sp"
+                            app:drawableStartCompat="@drawable/ic_baseline_opacity_24" />
+
+                        <TextView
+                            android:id="@+id/avgFirstValueTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/secondValueLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/avgSecondValuePerDay"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="5dp"
+                            android:textSize="16sp"
+                            app:drawableStartCompat="@drawable/ic_baseline_error_outline_24" />
+
+                        <TextView
+                            android:id="@+id/AvgSecondValueTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/thirdValueLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/avgThirdValuePerDay"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="5dp"
+                            android:textSize="16sp"
+                            app:drawableStartCompat="@drawable/ic_baseline_error_outline_24" />
+
+                        <TextView
+                            android:id="@+id/avgThirdValueTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lineChartCardView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                android:elevation="10dp"
+                android:paddingBottom="15dp"
+                android:visibility="gone"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statisticsCardView">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/pieChartCardView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                android:elevation="10dp"
+                android:paddingBottom="15dp"
+                android:visibility="gone"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lineChartCardView">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" />
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
 
 

@@ -70,8 +70,8 @@ public class MainFragment extends Fragment {
                 if(glucoseValue!=0){
                     String glucose = String.format(Locale.getDefault(),"%.0f",calculateMeanSugar(measurements));
                     binding.avgGlucoseMainTv.setText(glucose);
-                    calculateAndSetOtherFields(measurements);
                 }
+                calculateAndSetOtherFields(measurements);
             }
             else{
                 binding.bolusMainTv.setText("0");

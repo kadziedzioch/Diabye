@@ -94,4 +94,14 @@
     <string name="history_text">History</string>
     <string name="statistics_text">Statistics</string>
     <string name="settings_text">Settings</string>
+    <string name="select_measurement_type">Select measurement type</string>
+    <string name="select_time_interval">select time interval</string>
+    <string name="avg_blood_sugar_per_day">Avg. blood sugar per day</string>
+    <string name="avg_hyper_per_day">Avg. hypers per day</string>
+    <string name="avg_hypos_per_day">Avg. hypos per day</string>
+    <string name="avg_activity_per_day">Avg. activity per day</string>
+    <string name="avg_pressure_text">Avg. pressure per day</string>
+    <string name="no_avg_sugar_text">0 mg/dL</string>
+    <string name="no_avg_activity_text">0 min</string>
+    <string name="no_avg_pressure_text">0/0 mmHg</string>
 </resources>
