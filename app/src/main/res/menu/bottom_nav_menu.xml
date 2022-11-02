@@ -19,7 +19,7 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_timeline_24"/>
     <item
-        android:id="@+id/settings"
+        android:id="@+id/settingsFragment"
         android:title="@string/settings_text"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_settings_24"/>

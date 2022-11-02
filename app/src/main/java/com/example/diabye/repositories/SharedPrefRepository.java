@@ -24,6 +24,13 @@ public class SharedPrefRepository {
         editor.apply();
     }
 
+    public void cleanUserInfo(){
+        editor.putString(Constants.USER_NAME,"");
+        editor.putString(Constants.USER_ID,"");
+        editor.apply();
+    }
+
+
 
 
     public String getUsername(){

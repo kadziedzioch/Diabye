@@ -4,6 +4,8 @@ import com.example.diabye.R;
 import com.example.diabye.models.Category;
 import com.example.diabye.models.TimeInterval;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,11 @@ public class Constants {
     public static String BLOOD_SUGAR ="Blood sugar";
     public static String ACTIVITY ="Activity";
     public static String PRESSURE ="Pressure";
+    public static String MEAL_INSULIN ="Meal insulin";
+    public static String CORR_INSULIN ="Correct insulin";
+    public static String LONG_INSULIN ="Long insulin";
+    public static String TEMP_BOLUS ="Temporary bolus";
+    public static String FOOD_INFO ="Food";
     public static String WEEK ="Week";
     public static String MONTH ="Month";
     public static String THREE_MONTHS ="Three Months";
@@ -49,5 +56,14 @@ public class Constants {
         times.add(t3);
         times.add(t4);
         return times;
+    }
+
+    public static List<Category> getDocumentTypesList(){
+        List<Category> categories = new ArrayList<>();
+        Category c1 = new Category("PDF", R.drawable.ic_baseline_insert_drive_file_24);
+        Category c2 = new Category("CSV", R.drawable.ic_baseline_insert_drive_file_24);
+        categories.add(c1);
+        categories.add(c2);
+        return categories;
     }
 }

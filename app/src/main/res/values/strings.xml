@@ -104,4 +104,19 @@
     <string name="no_avg_sugar_text">0 mg/dL</string>
     <string name="no_avg_activity_text">0 min</string>
     <string name="no_avg_pressure_text">0/0 mmHg</string>
+    <string name="export_data">Export data</string>
+    <string name="change_settings">Change settings</string>
+    <string name="logout">Logout</string>
+    <string name="select_document_type">Select document type</string>
+    <string name="append_blood_sugar">Append blood sugar</string>
+    <string name="append_meal_insulin">Append meal insulin</string>
+    <string name="append_correct_insulin">Append correct insulin</string>
+    <string name="append_temporary_bolus">Append temporary bolus</string>
+    <string name="append_long_insulin">Append long insulin</string>
+    <string name="append_food_info">Append food info</string>
+    <string name="append_activity">Append activity</string>
+    <string name="append_pressure">Append pressure</string>
+    <string name="exportMeasurement">Export</string>
+    <string name="long_dash">—</string>
+    <string name="time_txt">time</string>
 </resources>

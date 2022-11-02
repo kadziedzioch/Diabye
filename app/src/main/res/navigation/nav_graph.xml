@@ -38,4 +38,18 @@
         android:name="com.example.diabye.fragments.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.diabye.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_exportFragment"
+            app:destination="@id/exportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exportFragment"
+        android:name="com.example.diabye.fragments.ExportFragment"
+        android:label="fragment_export"
+        tools:layout="@layout/fragment_export" />
 </navigation>
