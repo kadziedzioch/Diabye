@@ -29,6 +29,7 @@ android {
     viewBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -65,5 +66,13 @@ dependencies {
 
     //charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //pdf
+    implementation 'com.itextpdf:kernel:7.1.8'
+    implementation 'com.itextpdf:layout:7.1.8'
+    implementation 'com.itextpdf:io:7.1.8'
+
+    //csv
+    implementation 'com.opencsv:opencsv:5.7.1'
 
 }

@@ -27,6 +27,8 @@ public class MeasurementRepository {
     private MutableLiveData<Boolean> isSavingSuccessful = new MutableLiveData<>();
     private MutableLiveData<Boolean> isDeletingSuccessful = new MutableLiveData<>();
 
+    private MutableLiveData<List<MeasurementWithFoods>> measurementsWithFoods = new MutableLiveData<>();
+
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
 
@@ -35,6 +37,10 @@ public class MeasurementRepository {
     private FirebaseFirestore mFirestore;
     public MeasurementRepository() {
         mFirestore = FirebaseFirestore.getInstance();
+    }
+
+    public LiveData<List<MeasurementWithFoods>> getMeasurementsWithFoods() {
+        return measurementsWithFoods;
     }
 
     public MutableLiveData<List<Food>> getFoods() {
@@ -77,6 +83,58 @@ public class MeasurementRepository {
                 });
 
         return measurementsWithTimeInterval;
+    }
+
+
+    public void getMeasurementsWithTimeInterval(Date startDate,Date endDate,String userId){
+        List<Measurement> measurementList = new ArrayList<>();
+        mFirestore.collection(Constants.MEASUREMENTS)
+                .whereEqualTo("userId", userId)
+                .whereGreaterThanOrEqualTo("datetime",startDate)
+                .whereLessThan("datetime",endDate)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                        Measurement m = queryDocumentSnapshot.toObject(Measurement.class);
+                        m.setMeasurementId(queryDocumentSnapshot.getId());
+                        measurementList.add(m);
+                    }
+                    getMeasurementsWithFoodsWithTimeInterval(measurementList);
+                });
+
+    }
+
+    private void getMeasurementsWithFoodsWithTimeInterval(List<Measurement> measurementList) {
+
+        List<MeasurementWithFoods> measurementWithFoodsList = new ArrayList<>();
+        List<Task<QuerySnapshot>> taskList = new ArrayList<>();
+        for(Measurement m:measurementList){
+            Task<QuerySnapshot> t = mFirestore.collection(Constants.FOODS)
+                    .whereEqualTo("measurementId",m.getMeasurementId())
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        List<Food> foodList = new ArrayList<>();
+                        if(!queryDocumentSnapshots.isEmpty()){
+                            for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                                Food f = queryDocumentSnapshot.toObject(Food.class);
+                                f.setFoodId(queryDocumentSnapshot.getId());
+                                foodList.add(f);
+                            }
+                        }
+                        MeasurementWithFoods measurementWithFoods = new MeasurementWithFoods();
+                        measurementWithFoods.setMeasurement(m);
+                        measurementWithFoods.setFoodList(foodList);
+                        measurementWithFoodsList.add(measurementWithFoods);
+                    });
+            taskList.add(t);
+        }
+
+        Task<Void> allTask = Tasks.whenAll(taskList);
+        allTask.addOnSuccessListener(unused -> {
+            measurementsWithFoods.postValue(measurementWithFoodsList);
+        });
+
+
     }
 
     public LiveData<List<Measurement>> getMeasurements(Date date, String userId){

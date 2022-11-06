@@ -1,8 +1,14 @@
 package com.example.diabye.fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -10,30 +16,32 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 
 import com.example.diabye.R;
 import com.example.diabye.adapter.DocumentTypeSpinnerAdapter;
 import com.example.diabye.databinding.FragmentExportBinding;
 import com.example.diabye.models.TherapyType;
-import com.example.diabye.models.UserSettings;
 import com.example.diabye.repositories.SharedPrefRepository;
+import com.example.diabye.utils.AppUtils;
 import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.CustomSpinner;
 import com.example.diabye.viewmodels.ExportFragmentViewModel;
-
+import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
 
 public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerEventsListener, AdapterView.OnItemSelectedListener {
 
@@ -41,10 +49,10 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
     private String documentType;
     private SharedPrefRepository sharedPrefRepository;
     private ExportFragmentViewModel exportFragmentViewModel;
+
     public ExportFragment() {
 
     }
-
 
     public static ExportFragment newInstance() {
         return new ExportFragment();
@@ -69,18 +77,112 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setExportButton();
+        setSpinner();
+        setDateButtons();
+        setUserSettingRelatedData();
+
+        exportFragmentViewModel.getMeasurementsWithFoodsList().observe(getViewLifecycleOwner(), measurementWithFoods -> {
+            List<String> categories = createCategoryList();
+            if(measurementWithFoods!=null&& measurementWithFoods.size()>0
+                    && categories.size()>0 && Objects.equals(documentType, "PDF")){
+                exportFragmentViewModel.createPdfDocument(measurementWithFoods,categories);
+            }
+            if(measurementWithFoods!=null&& measurementWithFoods.size()>0
+                    && categories.size()>0 && Objects.equals(documentType, "CSV")){
+                exportFragmentViewModel.createCsvFile(measurementWithFoods,categories);
+            }
+        });
+
+        exportFragmentViewModel.getFile().observe(getViewLifecycleOwner(), new Observer<File>() {
+            @Override
+            public void onChanged(File file) {
+                binding.exportProgressBar.setVisibility(View.GONE);
+                if(Objects.equals(documentType, "PDF")){
+                    openPdfFile(file);
+                }
+                if(Objects.equals(documentType, "CSV")){
+                    openCsvFile(file);
+                }
+
+            }
+        });
+        exportFragmentViewModel.getException().observe(getViewLifecycleOwner(), exception -> {
+            binding.exportProgressBar.setVisibility(View.GONE);
+            AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                    exception.getMessage(),true);
+        });
+
+    }
+
+    private void openCsvFile(File file) {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
+        Intent csvIntent = new Intent(Intent.ACTION_VIEW);
+        csvIntent.setDataAndType(Uri.fromFile(file), "text/csv");
+        csvIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        try {
+            startActivity(csvIntent);
+        } catch (ActivityNotFoundException exception) {
+            AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                    getString(R.string.no_csv_reader_info),true);
+        }
+    }
+
+    private void openPdfFile(File file) {
+      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+      StrictMode.setVmPolicy(builder.build());
+      builder.detectFileUriExposure();
+      Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+      pdfIntent.setDataAndType(Uri.fromFile(file), "application/pdf");
+      pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        try {
+            startActivity(pdfIntent);
+        } catch (ActivityNotFoundException exception) {
+            AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                    getString(R.string.no_pdf_reader_message),true);
+        }
+    }
+
+
+    private void setSpinner(){
         DocumentTypeSpinnerAdapter documentTypeSpinnerAdapter = new DocumentTypeSpinnerAdapter(requireActivity(), binding.spinnerDocumentType.getId(),
                 Constants.getDocumentTypesList());
         binding.spinnerDocumentType.setAdapter(documentTypeSpinnerAdapter);
         binding.spinnerDocumentType.setSpinnerEventsListener(this);
         binding.spinnerDocumentType.setOnItemSelectedListener(this);
+    }
 
-        binding.exportButton.setOnClickListener(view1 -> {
-            requestData();
+    private void setExportButton() {
+        binding.exportButton.setOnClickListener(view -> {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
         });
-        setDateButtons();
-        setUserSettingRelatedData();
 
+    }
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            result -> {
+                if (result) {
+                   searchMeasurementsWithFoods();
+                } else {
+                    AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                            getString(R.string.permission_denied_info),true);
+                }
+            }
+    );
+
+    private void searchMeasurementsWithFoods() {
+            binding.exportProgressBar.setVisibility(View.VISIBLE);
+            String firstDateString = binding.addStartDateButton.getText().toString().trim();
+            String secondDateString = binding.addEndDateButton.getText().toString().trim();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime firstLocalDate = LocalDate.parse(firstDateString, formatter).atStartOfDay();
+            LocalDateTime secondLocalDate = LocalDate.parse(secondDateString, formatter).atStartOfDay().plusDays(1);
+            Date firstDate = Date.from(firstLocalDate.atZone(ZoneId.systemDefault()).toInstant());
+            Date secondDate = Date.from(secondLocalDate.atZone(ZoneId.systemDefault()).toInstant());
+            exportFragmentViewModel.searchMeasurementsWithFoods(firstDate,secondDate,sharedPrefRepository.getUserId());
     }
 
     public void setUserSettingRelatedData(){
@@ -99,7 +201,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     private void setDateButtons(){
         LocalDate dateNow = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM. yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateNowString = dateNow.format(formatter);
         binding.addStartDateButton.setText(dateNowString);
         binding.addEndDateButton.setText(dateNowString);
@@ -107,10 +209,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
         binding.addStartDateButton.setOnClickListener(this::showDatePickerDialog);
     }
 
-    private void requestData() {
-        String startDateString = binding.addStartDateButton.getText().toString();
-        String endDateString = binding.addEndDateButton.getText().toString();
-    }
+
 
     private void setUpToolBar(){
         Toolbar toolbar = binding.exportToolbar;
@@ -175,7 +274,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
                 getActivity(),
                 R.style.DatePickerTheme,
                 (datePicker, year, month, day) -> {
-                    String date = LocalDate.of(year,month+1,day).format(DateTimeFormatter.ofPattern("d MMM. yyyy"));
+                    String date = LocalDate.of(year,month+1,day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     if(v.getId()== binding.addEndDateButton.getId()){
                         binding.addEndDateButton.setText(date);
                     }

@@ -542,18 +542,25 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         int hyper = 0;
         int hypo = 0;
         int inTargetRange = 0;
+        int others = 0;
         for(Measurement m: measurementWithUserSettings.getMeasurementList()){
             if(m.getSugarLevel()>= measurementWithUserSettings.getUserSettings().getHyperValue()){
                 hyper++;
             }
-            if(m.getSugarLevel()<= measurementWithUserSettings.getUserSettings().getHypoValue()
+            else if(m.getSugarLevel()<= measurementWithUserSettings.getUserSettings().getHypoValue()
             && m.getSugarLevel()>0){
                 hypo++;
             }
-            if(m.getSugarLevel()<= measurementWithUserSettings.getUserSettings().getHighSugarRangeLevel()
+            else if(m.getSugarLevel()<= measurementWithUserSettings.getUserSettings().getHighSugarRangeLevel()
             && m.getSugarLevel()>= measurementWithUserSettings.getUserSettings().getLowSugarRangeLevel()){
                 inTargetRange++;
             }
+            else{
+                if(m.getSugarLevel()>0){
+                    others++;
+                }
+            }
+
         }
 
         if(hypo >0|| hyper>0|| inTargetRange>0){
@@ -561,7 +568,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
                 binding.pieChartCardView.setVisibility(View.VISIBLE);
             }
             initPieChart();
-            setUpPieChart(hyper,hypo,inTargetRange);
+            setUpPieChart(hyper,hypo,inTargetRange,others);
         }
         else{
             if(binding.pieChartCardView.getVisibility()!=View.GONE){
@@ -585,7 +592,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         binding.pieChartView.animateY(1400, Easing.EaseInOutQuad);
     }
 
-    private void setUpPieChart(int hyper, int hypo, int inTargetRange) {
+    private void setUpPieChart(int hyper, int hypo, int inTargetRange, int others) {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         String label = "type";
         Map<String, Integer> typeAmountMap = new HashMap<>();
@@ -598,10 +605,14 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         if(inTargetRange>0){
             typeAmountMap.put("Target",inTargetRange);
         }
+        if(others>0){
+            typeAmountMap.put("Others",others);
+        }
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(requireActivity(),R.color.main_blue));
         colors.add(ContextCompat.getColor(requireActivity(),R.color.darker_blue));
         colors.add(ContextCompat.getColor(requireActivity(),R.color.very_dark_blue));
+        colors.add(ContextCompat.getColor(requireActivity(),R.color.lighter_blue));
 
         for(String type: typeAmountMap.keySet()){
             pieEntries.add(new PieEntry(typeAmountMap.get(type).floatValue(), type));
