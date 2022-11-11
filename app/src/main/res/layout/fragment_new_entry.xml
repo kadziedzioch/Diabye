@@ -206,7 +206,7 @@
                     android:layout_weight="2"
                     android:paddingStart="10dp"
                     android:text="@string/temp_basal_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -246,7 +246,7 @@
                     android:layout_weight="2"
                     android:paddingStart="10dp"
                     android:text="@string/temp_basal_time_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -286,7 +286,7 @@
                     android:layout_weight="2"
                     android:paddingStart="10dp"
                     android:text="@string/long_insulin_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"

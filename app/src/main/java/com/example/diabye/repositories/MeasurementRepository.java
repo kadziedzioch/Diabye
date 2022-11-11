@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -131,6 +132,7 @@ public class MeasurementRepository {
 
         Task<Void> allTask = Tasks.whenAll(taskList);
         allTask.addOnSuccessListener(unused -> {
+            measurementWithFoodsList.sort(Comparator.comparing(measurementWithFoods -> measurementWithFoods.getMeasurement().getDatetime()));
             measurementsWithFoods.postValue(measurementWithFoodsList);
         });
 

@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +64,8 @@ public class PdfService {
 
   public void createPdfDocument(List<MeasurementWithFoods> measurementWithFoodsList,
                                 List<String> categories,
+                                String startDate,
+                                String endDate,
                                 ExportCallback exportCallback)  {
 
         executorService.execute(() -> {
@@ -73,6 +76,7 @@ public class PdfService {
                 Document document = createDocument(writer);
 
                 document.add(new Paragraph("Diabye").setHorizontalAlignment(HorizontalAlignment.CENTER));
+                document.add(new Paragraph("Time interval: "+startDate+" - "+endDate));
                 document.add(new Paragraph("Date created: "+LocalDate.now().toString()).setHorizontalAlignment(HorizontalAlignment.CENTER));
                 document.add(new Paragraph(""));
 
@@ -104,67 +108,69 @@ public class PdfService {
 
                 }
 
-                String pattern = "d-MM-yyyy hh:mm";
+                List<String> checkList = new ArrayList<>();
+                String pattern = "d-MM-yyyy HH:mm";
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
                 for(MeasurementWithFoods measurementWithFoods :measurementWithFoodsList){
                     Measurement m = measurementWithFoods.getMeasurement();
-                    table.addCell(simpleDateFormat.format(m.getDatetime()));
                     if(categories.contains(Constants.BLOOD_SUGAR)){
                         if(m.getSugarLevel()>0){
-                            table.addCell(String.valueOf(m.getSugarLevel()));
+                            checkList.add(String.valueOf(m.getSugarLevel()));
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
 
                     }
                     if(categories.contains(Constants.MEAL_INSULIN)){
                         if(m.getMealInsulin()>0){
-                            table.addCell(String.valueOf(m.getMealInsulin()));
+                            checkList.add(String.valueOf(m.getMealInsulin()));
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
                     }
                     if(categories.contains(Constants.CORR_INSULIN)){
                         if(m.getCorrInsulin()>0){
-                            table.addCell(String.valueOf(m.getCorrInsulin()));
+                            checkList.add(String.valueOf(m.getCorrInsulin()));
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
                     }
                     if(categories.contains(Constants.TEMP_BOLUS)){
                         if(m.getTempBolus()>0){
-                            table.addCell(m.getTempBolus()+"% "+ m.getTempBolusTime()+"min");
+                            checkList.add(m.getTempBolus()+"% "+ m.getTempBolusTime()+"min");
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
                     }
                     if(categories.contains(Constants.LONG_INSULIN)){
                         if(m.getLongInsulin()>0){
-                            table.addCell(String.valueOf(m.getLongInsulin()));
+                            checkList.add(String.valueOf(m.getLongInsulin()));
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
                     }
                     if(categories.contains(Constants.ACTIVITY)){
                         if(m.getActivity()>0){
-                            table.addCell(String.valueOf(m.getActivity()));
+                            checkList.add(String.valueOf(m.getActivity()));
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
                     }
                     if(categories.contains(Constants.PRESSURE)){
                         if(m.getDiasPressure()>0){
-                            table.addCell(m.getSysPressure() +"/"+m.getDiasPressure());
+                            String sysPressure= String.format(Locale.getDefault(),"%.0f", m.getSysPressure());
+                            String diasPressure = String.format(Locale.getDefault(),"%.0f", m.getDiasPressure());
+                            checkList.add(sysPressure +"/"+diasPressure);
                         }
                         else{
-                            table.addCell("-");
+                            checkList.add("-");
                         }
 
                     }
@@ -174,17 +180,34 @@ public class PdfService {
                             double calories = FoodUtils.calculateCalories(foodList);
                             double cho =FoodUtils.calculateCho(foodList);
                             double fpu = FoodUtils.calculateFpu(foodList);
-                            table.addCell(String.format(Locale.getDefault(),"%.0f", calories));
-                            table.addCell(String.format(Locale.getDefault(),"%.1f", cho));
-                            table.addCell(String.format(Locale.getDefault(),"%.1f", fpu));
+                            checkList.add(String.format(Locale.getDefault(),"%.0f", calories));
+                            checkList.add(String.format(Locale.getDefault(),"%.1f", cho));
+                            checkList.add(String.format(Locale.getDefault(),"%.1f", fpu));
                         }
                         else{
-                            table.addCell("-");
-                            table.addCell("-");
-                            table.addCell("-");
+                            checkList.add("-");
+                            checkList.add("-");
+                            checkList.add("-");
                         }
                     }
+                    boolean found = false;
+                    for(String check: checkList){
+                        if (!Objects.equals(check, "-")) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(found){
+                        table.addCell(simpleDateFormat.format(m.getDatetime()));
+                        for(String check: checkList){
+                            table.addCell(check);
+                        }
+                    }
+                    checkList.clear();
+
                 }
+
                 document.add(table);
                 document.close();
                 writer.close();

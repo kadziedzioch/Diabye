@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 
 import android.os.StrictMode;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import android.widget.Spinner;
 import com.example.diabye.R;
 import com.example.diabye.adapter.DocumentTypeSpinnerAdapter;
 import com.example.diabye.databinding.FragmentExportBinding;
+import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.models.TherapyType;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
@@ -82,30 +82,17 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
         setDateButtons();
         setUserSettingRelatedData();
 
-        exportFragmentViewModel.getMeasurementsWithFoodsList().observe(getViewLifecycleOwner(), measurementWithFoods -> {
-            List<String> categories = createCategoryList();
-            if(measurementWithFoods!=null&& measurementWithFoods.size()>0
-                    && categories.size()>0 && Objects.equals(documentType, "PDF")){
-                exportFragmentViewModel.createPdfDocument(measurementWithFoods,categories);
-            }
-            if(measurementWithFoods!=null&& measurementWithFoods.size()>0
-                    && categories.size()>0 && Objects.equals(documentType, "CSV")){
-                exportFragmentViewModel.createCsvFile(measurementWithFoods,categories);
-            }
-        });
+        exportFragmentViewModel.getMeasurementsWithFoodsList().observe(getViewLifecycleOwner(), this::exportData);
 
-        exportFragmentViewModel.getFile().observe(getViewLifecycleOwner(), new Observer<File>() {
-            @Override
-            public void onChanged(File file) {
-                binding.exportProgressBar.setVisibility(View.GONE);
-                if(Objects.equals(documentType, "PDF")){
-                    openPdfFile(file);
-                }
-                if(Objects.equals(documentType, "CSV")){
-                    openCsvFile(file);
-                }
-
+        exportFragmentViewModel.getFile().observe(getViewLifecycleOwner(), file -> {
+            binding.exportProgressBar.setVisibility(View.GONE);
+            if(Objects.equals(documentType, "PDF")){
+                openPdfFile(file);
             }
+            if(Objects.equals(documentType, "CSV")){
+                openCsvFile(file);
+            }
+
         });
         exportFragmentViewModel.getException().observe(getViewLifecycleOwner(), exception -> {
             binding.exportProgressBar.setVisibility(View.GONE);
@@ -113,6 +100,30 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
                     exception.getMessage(),true);
         });
 
+    }
+
+    private void exportData(List<MeasurementWithFoods> measurementWithFoods){
+        List<String> categories = createCategoryList();
+        if(measurementWithFoods!=null&& measurementWithFoods.size()>0
+                && categories.size()>0 && Objects.equals(documentType, "PDF")){
+            String startDay = binding.addStartDateButton.getText().toString();
+            String endDay = binding.addEndDateButton.getText().toString();
+            exportFragmentViewModel.createPdfDocument(measurementWithFoods,categories, startDay,endDay);
+        }
+        else if(measurementWithFoods!=null&& measurementWithFoods.size()>0
+                && categories.size()>0 && Objects.equals(documentType, "CSV")){
+            exportFragmentViewModel.createCsvFile(measurementWithFoods,categories);
+        }
+        else if(measurementWithFoods!=null&& measurementWithFoods.size()==0){
+            binding.exportProgressBar.setVisibility(View.GONE);
+            AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                    getString(R.string.no_measurements_in_this_time_interval), true);
+        }
+        else if(categories.size()==0){
+            binding.exportProgressBar.setVisibility(View.GONE);
+            AppUtils.showMessage(requireActivity(),binding.activityCheckBox,
+                    getString(R.string.no_category_selected), true);
+        }
     }
 
     private void openCsvFile(File file) {
@@ -155,9 +166,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
     }
 
     private void setExportButton() {
-        binding.exportButton.setOnClickListener(view -> {
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
-        });
+        binding.exportButton.setOnClickListener(view -> requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE));
 
     }
 
@@ -213,9 +222,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     private void setUpToolBar(){
         Toolbar toolbar = binding.exportToolbar;
-        toolbar.setNavigationOnClickListener(view -> {
-            requireActivity().onBackPressed();
-        });
+        toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
     }
 
     private List<String> createCategoryList(){
@@ -267,8 +274,7 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     }
 
-    //TO DO
-    //porownaj daty zeby nie mozna bylo dac daty pozniejszej w start date
+
     public void showDatePickerDialog(View v) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 getActivity(),

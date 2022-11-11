@@ -69,8 +69,8 @@ public class ExportFragmentViewModel extends ViewModel implements ExportCallback
     }
 
     public void createPdfDocument(List<MeasurementWithFoods> measurementWithFoodsList,
-                                  List<String> categories){
-        pdfService.createPdfDocument(measurementWithFoodsList, categories, this);
+                                  List<String> categories, String startDay, String endDay){
+        pdfService.createPdfDocument(measurementWithFoodsList, categories, startDay,endDay, this);
     }
 
     @Override

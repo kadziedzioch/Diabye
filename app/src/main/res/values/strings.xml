@@ -111,7 +111,7 @@
     <string name="append_blood_sugar">Append blood sugar</string>
     <string name="append_meal_insulin">Append meal insulin</string>
     <string name="append_correct_insulin">Append correct insulin</string>
-    <string name="append_temporary_bolus">Append temporary bolus</string>
+    <string name="append_temporary_bolus">Append temporary basal</string>
     <string name="append_long_insulin">Append long insulin</string>
     <string name="append_food_info">Append food info</string>
     <string name="append_activity">Append activity</string>
@@ -122,4 +122,7 @@
     <string name="permission_denied_info">You cannot export your measurements if you do not grant the permission to access your documents and files</string>
     <string name="no_pdf_reader_message">Can\'t read pdf file</string>
     <string name="no_csv_reader_info">Can\'t read csv file</string>
+    <string name="no_measurements_in_this_time_interval">No measurements in this time interval</string>
+    <string name="no_category_selected">No category has been selected</string>
+    <string name="change_your_settings">CHANGE YOUR SETTINGS</string>
 </resources>

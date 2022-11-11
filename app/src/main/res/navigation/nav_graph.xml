@@ -46,10 +46,18 @@
         <action
             android:id="@+id/action_settingsFragment_to_exportFragment"
             app:destination="@id/exportFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_changeSettingsFragment"
+            app:destination="@id/changeSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/exportFragment"
         android:name="com.example.diabye.fragments.ExportFragment"
         android:label="fragment_export"
         tools:layout="@layout/fragment_export" />
+    <fragment
+        android:id="@+id/changeSettingsFragment"
+        android:name="com.example.diabye.fragments.ChangeSettingsFragment"
+        android:label="fragment_change_settings"
+        tools:layout="@layout/fragment_change_settings" />
 </navigation>

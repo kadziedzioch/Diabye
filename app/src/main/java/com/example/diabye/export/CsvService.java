@@ -78,11 +78,10 @@ public class CsvService {
                     firstRow[firstRow.length-3] = "Calories (kcal)";
                     firstRow[firstRow.length-2] = "Carbs (CHO)";
                     firstRow[firstRow.length-1] = "Fats&Proteins (FPU)";
-
                 }
                 data.add(firstRow);
 
-                String pattern = "d-MM-yyyy hh:mm";
+                String pattern = "dd-MM-yyyy HH:mm";
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 int index = 1;
                 for(MeasurementWithFoods measurementWithFoods: measurementWithFoodsList){
@@ -176,8 +175,18 @@ public class CsvService {
                             row[index+2] = "-";
                         }
                     }
+                    boolean found = false;
+                    for(String x: row){
+                        if(!Objects.equals(x, "-") && !Objects.equals(x, simpleDateFormat.format(m.getDatetime()))){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found){
+                        data.add(row);
+                    }
                     index = 1;
-                    data.add(row);
+
                 }
                 csvWriter.writeAll(data);
                 csvWriter.close();

@@ -61,7 +61,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
                 holder.mealInsulinTv.setVisibility(View.VISIBLE);
             }
             double mealInsulin = measurementWithFoodsList.get(position).getMeasurement().getMealInsulin();
-            holder.mealInsulinTv.setText(String.format(Locale.getDefault(),"%.0f U.I. (meal insulin)",mealInsulin));
+            holder.mealInsulinTv.setText(String.format(Locale.getDefault(),"%.0f I.U. (meal insulin)",mealInsulin));
 
         }
         else{
@@ -74,7 +74,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             }
 
             double corrInsulin = measurementWithFoodsList.get(position).getMeasurement().getCorrInsulin();
-            holder.corrInsulinTv.setText(String.format(Locale.getDefault(),"%.0f U.I. (corr. insulin)",corrInsulin));
+            holder.corrInsulinTv.setText(String.format(Locale.getDefault(),"%.0f I.U. (corr. insulin)",corrInsulin));
         }
         else{
             holder.corrInsulinTv.setVisibility(View.GONE);
@@ -86,7 +86,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             }
 
             double longInsulin = measurementWithFoodsList.get(position).getMeasurement().getLongInsulin();
-            holder.longInsulinTv.setText(String.format(Locale.getDefault(),"%.0f U.I. (long insulin)",longInsulin));
+            holder.longInsulinTv.setText(String.format(Locale.getDefault(),"%.0f I.U. (long insulin)",longInsulin));
         }
         else{
             holder.longInsulinTv.setVisibility(View.GONE);

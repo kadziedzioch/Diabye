@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.UserSettingsActivity">
+    tools:context=".fragments.ChangeSettingsFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/changeSettingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_white_24">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/complete_your_profile_text"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:paddingEnd="0dp"
+            android:text="@string/change_your_settings"
             android:textColor="@color/white"
             android:textSize="@dimen/title_textSize"
             android:textStyle="bold"
@@ -30,17 +33,19 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/changeSettingsToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipToPadding="false">
 
             <TextView
-                android:id="@+id/therapy_question_text"
+                android:id="@+id/therapy_question_change_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -51,7 +56,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
-                android:id="@+id/therapy_type_group"
+                android:id="@+id/therapy_type_change_group"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
@@ -60,10 +65,10 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/therapy_question_text">
+                app:layout_constraintTop_toBottomOf="@id/therapy_question_change_text">
 
                 <RadioButton
-                    android:id="@+id/pens_button"
+                    android:id="@+id/pens_change_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
@@ -71,7 +76,6 @@
                     android:layout_weight="1"
                     android:background="@drawable/radiobutton_background"
                     android:button="@null"
-                    android:checked="true"
                     android:gravity="center"
                     android:text="@string/pens_syringes_text"
                     android:textColor="@color/white"
@@ -79,7 +83,7 @@
                     tools:ignore="TextContrastCheck" />
 
                 <RadioButton
-                    android:id="@+id/pump_button"
+                    android:id="@+id/pump_change_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
@@ -96,7 +100,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/hiper_hypo_text_info"
+                android:id="@+id/hiper_hypo_change_text_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
@@ -105,10 +109,10 @@
                 android:textSize="@dimen/et_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/therapy_type_group" />
+                app:layout_constraintTop_toBottomOf="@id/therapy_type_change_group" />
 
             <EditText
-                android:id="@+id/hyper_editText"
+                android:id="@+id/hyper_change_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -125,10 +129,12 @@
                 android:textSize="@dimen/et_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hiper_hypo_text_info"
-                tools:ignore="TextContrastCheck" />
+                app:layout_constraintTop_toBottomOf="@id/hiper_hypo_change_text_info"
+                tools:ignore="TextContrastCheck"
+                android:importantForAutofill="no" />
+
             <EditText
-                android:id="@+id/high_range_editText"
+                android:id="@+id/high_range_change_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -145,10 +151,12 @@
                 android:textSize="@dimen/et_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hyper_editText"
-                tools:ignore="TextContrastCheck" />
+                app:layout_constraintTop_toBottomOf="@id/hyper_change_editText"
+                tools:ignore="TextContrastCheck"
+                android:importantForAutofill="no" />
+
             <EditText
-                android:id="@+id/low_range_editText"
+                android:id="@+id/low_range_change_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -165,13 +173,12 @@
                 android:textSize="@dimen/et_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/high_range_editText"
-                tools:ignore="TextContrastCheck" />
-
-
+                app:layout_constraintTop_toBottomOf="@id/high_range_change_editText"
+                tools:ignore="TextContrastCheck"
+                android:importantForAutofill="no" />
 
             <EditText
-                android:id="@+id/hypo_editText"
+                android:id="@+id/hypo_change_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -188,12 +195,13 @@
                 android:textSize="@dimen/et_textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/low_range_editText"
-                tools:ignore="TextContrastCheck" />
+                app:layout_constraintTop_toBottomOf="@id/low_range_change_editText"
+                tools:ignore="TextContrastCheck"
+                android:importantForAutofill="no" />
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/submitUserSettingsButton"
+                android:id="@+id/changeUserSettingsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -205,20 +213,17 @@
                 android:gravity="center"
                 android:paddingTop="@dimen/btn_padding"
                 android:paddingBottom="@dimen/btn_padding"
-                android:text="@string/submit_text"
+                android:text="@string/change_settings"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/btn_textSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hypo_editText"
+                app:layout_constraintTop_toBottomOf="@id/hypo_change_editText"
                 tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

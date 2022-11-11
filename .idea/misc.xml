@@ -29,13 +29,14 @@
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_register.xml" value="0.18297101449275363" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_splash.xml" value="0.18297101449275363" />
-        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_user_settings.xml" value="0.176" />
+        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/activity_user_settings.xml" value="0.2" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/calendar_cell.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/dialog_add_food.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/dialog_fill_user_info.xml" value="0.18297101449275363" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/food_row_recycle_view_new_entry_fragment.xml" value="0.2" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/food_row_recycler_view_search_fragment.xml" value="0.21557971014492755" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/fragment_blank.xml" value="0.21557971014492755" />
+        <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/fragment_change_settings.xml" value="0.2" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/fragment_export.xml" value="0.2" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/fragment_history.xml" value="0.2" />
         <entry key="..\:/Users/kadzi/AndroidStudioProjects/Diabye/app/src/main/res/layout/fragment_import.xml" value="0.23822463768115942" />
