@@ -80,6 +80,8 @@ public class PdfService {
                 document.add(new Paragraph("Date created: "+LocalDate.now().toString()).setHorizontalAlignment(HorizontalAlignment.CENTER));
                 document.add(new Paragraph(""));
 
+
+
                 float [] columnWidth;
                 if(!categories.contains(Constants.FOOD_INFO)){
                     columnWidth = new float[categories.size()+1];
@@ -207,7 +209,6 @@ public class PdfService {
                     checkList.clear();
 
                 }
-
                 document.add(table);
                 document.close();
                 writer.close();
@@ -219,6 +220,7 @@ public class PdfService {
         });
 
   }
+
 
 
 

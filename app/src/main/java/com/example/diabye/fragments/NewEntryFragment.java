@@ -177,7 +177,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     }
 
-    //TO DO forbid no input in edit text
+
 
     private boolean validateInput() {
         if(binding.tempBasalLayout.getVisibility() == View.VISIBLE){
@@ -205,6 +205,14 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
                 AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter systolic pressure!",true);
                 return false;
             }
+        }
+
+        if(TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()) && TextUtils.isEmpty(binding.mealinsulinET.getText().toString().trim())
+        && TextUtils.isEmpty(binding.corrInsulinET.getText().toString().trim()) && TextUtils.isEmpty(binding.sysPressureET.getText().toString().trim())
+        && TextUtils.isEmpty(binding.activityET.getText().toString().trim()) && TextUtils.isEmpty(binding.CHOValueTextView.getText().toString().trim())
+        && TextUtils.isEmpty(binding.tempBasalET.getText().toString().trim()) && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim())){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill at least one field",true);
+            return false;
         }
 
         return true;
@@ -239,7 +247,9 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             if(newEntryViewModel.getDate().getValue()!=null){
                 newEntryViewModel.clearDate();
             }
-            requireActivity().onBackPressed();
+            NavHostFragment.findNavController(NewEntryFragment.this)
+                    .navigate(R.id.action_newEntryFragment_to_mainFragment);
+
         });
     }
 

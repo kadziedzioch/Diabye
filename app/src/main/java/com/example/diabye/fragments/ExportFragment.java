@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.StrictMode;
 import android.view.LayoutInflater;
@@ -222,7 +223,8 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     private void setUpToolBar(){
         Toolbar toolbar = binding.exportToolbar;
-        toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
+        toolbar.setNavigationOnClickListener(view -> NavHostFragment.findNavController(ExportFragment.this)
+                .navigate(R.id.action_exportFragment_to_settingsFragment));
     }
 
     private List<String> createCategoryList(){

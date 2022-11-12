@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,7 +94,9 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
         });
 
         binding.toolbarSearchFoodFragment.setNavigationOnClickListener(view1 -> {
-            requireActivity().onBackPressed();
+            NavHostFragment.findNavController(SearchFoodFragment.this)
+                    .navigate(R.id.action_searchFoodFragment_to_newEntryFragment);
+            //requireActivity().onBackPressed();
         });
 
         searchFoodFragmentViewModel.getFoodRetrofitList().observe(getViewLifecycleOwner(), foodRetrofits -> {

@@ -101,6 +101,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         statisticsFragmentViewModel.getMeasurementsWithUserSettings().observe(getViewLifecycleOwner(),
                 measurementWithUserSettings -> {
             if(measurementWithUserSettings.getMeasurementList().size()>0){
+                if(binding.noDataTv.getVisibility() == View.VISIBLE){
+                    binding.noDataTv.setVisibility(View.GONE);
+                }
                 if(Objects.equals(statisticsFragmentViewModel.getMeasurementCategory().getValue(), Constants.BLOOD_SUGAR)){
                     countHyperAndHypos(measurementWithUserSettings);
                 }
@@ -108,6 +111,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
                 countAverages(measurementWithUserSettings);
             }
             else{
+                if(binding.noDataTv.getVisibility() == View.GONE){
+                    binding.noDataTv.setVisibility(View.VISIBLE);
+                }
                 if(binding.lineChartCardView.getVisibility() == View.VISIBLE){
                     binding.lineChartCardView.setVisibility(View.GONE);
                 }
@@ -232,19 +238,22 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
 
         if(Objects.equals(timeInterval, Constants.WEEK)){
             LocalDate startWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(7);
-            LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY);
+            LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(1);
             String text = startWeek.getDayOfMonth()+ "."+ startWeek.getMonth().getValue()+" - "+ endWeek.getDayOfMonth() + "."+ endWeek.getMonth().getValue();
             binding.periodNameTv.setText(text);
         }
         else if(Objects.equals(timeInterval, Constants.MONTH)){
             String text = LocalDate.now().getMonth().name();
+            text = text.charAt(0) + text.substring(1).toLowerCase();
             binding.periodNameTv.setText(text);
 
         }
         else if(Objects.equals(timeInterval, Constants.THREE_MONTHS)){
             String firstMonth = LocalDate.now().minusMonths(2).getMonth().name();
+            firstMonth = firstMonth.charAt(0) + firstMonth.substring(1).toLowerCase();
             String secondMonth = LocalDate.now().getMonth().name();
-            String text = firstMonth.substring(0,3) + ". -" + secondMonth.substring(0,3)+".";
+            secondMonth = secondMonth.charAt(0) + secondMonth.substring(1).toLowerCase();
+            String text = firstMonth.substring(0,3) + ". - " + secondMonth.substring(0,3)+".";
             binding.periodNameTv.setText(text);
         }
         else{
@@ -361,6 +370,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
             }
         }
         if(entries.size()>0){
+            if(binding.noDataTv.getVisibility() == View.VISIBLE) {
+                binding.noDataTv.setVisibility(View.GONE);
+            }
             if(binding.lineChartCardView.getVisibility() == View.GONE){
                 binding.lineChartCardView.setVisibility(View.VISIBLE);
             }
@@ -372,6 +384,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
 
         }
         else{
+            if(binding.noDataTv.getVisibility() == View.GONE){
+                binding.noDataTv.setVisibility(View.VISIBLE);
+            }
             if(binding.lineChartCardView.getVisibility() == View.VISIBLE) {
                 binding.lineChartCardView.setVisibility(View.GONE);
             }
@@ -440,7 +455,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         if(entries.size()<5){
             if(Objects.equals(statisticsFragmentViewModel.getTimeInterval().getValue(), Constants.WEEK)){
                 LocalDate startWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(7);
-                LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY).plusDays(1);
+                LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY);
                 binding.lineChartView.getXAxis().setAxisMinimum(startWeek.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
                 binding.lineChartView.getXAxis().setAxisMaximum(endWeek.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
             }
@@ -680,6 +695,6 @@ class PercentValueFormatter extends ValueFormatter {
 
     @Override
     public String getFormattedValue(float value) {
-        return String.format("%d%%", (int) value);
+        return String.format(Locale.getDefault(),"%d%%", (int) value);
     }
 }

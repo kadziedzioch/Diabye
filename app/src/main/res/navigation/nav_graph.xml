@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_newEntryFragment"
-            app:destination="@id/newEntryFragment" />
+            app:destination="@id/newEntryFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/to_down" />
     </fragment>
     <fragment
         android:id="@+id/newEntryFragment"
@@ -21,13 +25,28 @@
         tools:layout="@layout/fragment_new_entry" >
         <action
             android:id="@+id/action_newEntryFragment_to_searchFoodFragment"
-            app:destination="@id/searchFoodFragment" />
+            app:destination="@id/searchFoodFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/to_down" />
+        <action
+            android:id="@+id/action_newEntryFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@anim/to_down" />
     </fragment>
     <fragment
         android:id="@+id/searchFoodFragment"
         android:name="com.example.diabye.fragments.SearchFoodFragment"
         android:label="fragment_search_food"
-        tools:layout="@layout/fragment_search_food" />
+        tools:layout="@layout/fragment_search_food" >
+        <action
+            android:id="@+id/action_searchFoodFragment_to_newEntryFragment"
+            app:destination="@id/newEntryFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@anim/to_down" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.diabye.fragments.HistoryFragment"
@@ -45,19 +64,39 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_exportFragment"
-            app:destination="@id/exportFragment" />
+            app:destination="@id/exportFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/to_down"/>
         <action
             android:id="@+id/action_settingsFragment_to_changeSettingsFragment"
-            app:destination="@id/changeSettingsFragment" />
+            app:destination="@id/changeSettingsFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/to_down"/>
     </fragment>
     <fragment
         android:id="@+id/exportFragment"
         android:name="com.example.diabye.fragments.ExportFragment"
         android:label="fragment_export"
-        tools:layout="@layout/fragment_export" />
+        tools:layout="@layout/fragment_export" >
+        <action
+            android:id="@+id/action_exportFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@anim/to_down"/>
+    </fragment>
     <fragment
         android:id="@+id/changeSettingsFragment"
         android:name="com.example.diabye.fragments.ChangeSettingsFragment"
         android:label="fragment_change_settings"
-        tools:layout="@layout/fragment_change_settings" />
+        tools:layout="@layout/fragment_change_settings" >
+        <action
+            android:id="@+id/action_changeSettingsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@anim/to_down"/>
+    </fragment>
 </navigation>

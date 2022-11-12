@@ -1,18 +1,23 @@
 package com.example.diabye.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.diabye.R;
 import com.example.diabye.adapter.CalendarAdapter;
@@ -142,6 +147,27 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
 
     @Override
     public void OnMeasurementDeleteClicked(MeasurementWithFoods measurementWithFoods) {
-       mainActivityViewModel.deleteMeasurementWithFoods(measurementWithFoods);
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    mainActivityViewModel.deleteMeasurementWithFoods(measurementWithFoods);
+                    dialog.dismiss();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.dismiss();
+                    break;
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage("Are you sure you want to delete this measurement?")
+                .setPositiveButton("Delete", dialogClickListener)
+                .setNegativeButton("Cancel", dialogClickListener)
+                .show();
+
     }
+
+
+
 }

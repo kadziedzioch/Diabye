@@ -125,4 +125,5 @@
     <string name="no_measurements_in_this_time_interval">No measurements in this time interval</string>
     <string name="no_category_selected">No category has been selected</string>
     <string name="change_your_settings">CHANGE YOUR SETTINGS</string>
+    <string name="no_measurements">No measurements</string>
 </resources>

@@ -6,10 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.diabye.R;
 import com.example.diabye.databinding.FragmentChangeSettingsBinding;
 import com.example.diabye.models.TherapyType;
 import com.example.diabye.models.UserSettings;
@@ -53,7 +56,8 @@ public class ChangeSettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.changeSettingsToolbar.setNavigationOnClickListener(view1 -> {
-            requireActivity().onBackPressed();
+            NavHostFragment.findNavController(ChangeSettingsFragment.this)
+                    .navigate(R.id.action_changeSettingsFragment_to_settingsFragment);
         });
         changeSettingsViewModel.getUserSettingsData(sharedPrefRepository.getUserId());
         changeSettingsViewModel.getUserSettings().observe(getViewLifecycleOwner(), this::setUpData);

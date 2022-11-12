@@ -136,6 +136,12 @@
                 android:paddingBottom="5dp"
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/foodListTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

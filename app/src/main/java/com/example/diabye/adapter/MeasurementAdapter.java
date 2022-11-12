@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.diabye.R;
 import com.example.diabye.listeners.RecyclerMeasurementListener;
+import com.example.diabye.models.Food;
 import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.utils.FoodUtils;
 
@@ -140,6 +141,9 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             if(holder.caloriesTv.getVisibility()!=View.VISIBLE){
                 holder.caloriesTv.setVisibility(View.VISIBLE);
             }
+            if(holder.foodtv.getVisibility()!=View.VISIBLE){
+                holder.foodtv.setVisibility(View.VISIBLE);
+            }
             double kcal = FoodUtils.calculateCalories(measurementWithFoodsList.get(position).getFoodList());
             double fpu = FoodUtils.calculateFpu(measurementWithFoodsList.get(position).getFoodList());
             double cho = FoodUtils.calculateCho(measurementWithFoodsList.get(position).getFoodList());
@@ -147,12 +151,21 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             holder.caloriesTv.setText(String.format(Locale.getDefault(),"%.0f kcal",kcal));
             holder.fpuTv.setText(String.format(Locale.getDefault(),"%.1f FPU",fpu));
             holder.choTv.setText(String.format(Locale.getDefault(),"%.1f CHO",cho));
+
+            StringBuilder foodText= new StringBuilder();
+            for(Food f : measurementWithFoodsList.get(position).getFoodList()){
+                foodText.append(f.getPortion()).append(" x ").append(f.getUnit()).append(" ").append(f.getFoodName()).append("\n");
+            }
+            int last = foodText.lastIndexOf("\n");
+            if (last >= 0) { foodText.delete(last, foodText.length()); }
+            holder.foodtv.setText(foodText);
+
         }
         else{
             holder.choTv.setVisibility(View.GONE);
             holder.caloriesTv.setVisibility(View.GONE);
             holder.fpuTv.setVisibility(View.GONE);
-
+            holder.foodtv.setVisibility(View.GONE);
         }
 
 
@@ -166,7 +179,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView bloodSugarTv, timeTv, mealInsulinTv, corrInsulinTv, longInsulinTv;
-        TextView temBolusTv, activityTv,pressureTv, choTv, caloriesTv, fpuTv;
+        TextView temBolusTv, activityTv,pressureTv, choTv, caloriesTv, fpuTv, foodtv;
         ImageButton deleteMeasurementButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,6 +194,7 @@ public class MeasurementAdapter extends RecyclerView.Adapter<MeasurementAdapter.
             fpuTv = itemView.findViewById(R.id.fpuTv);
             choTv = itemView.findViewById(R.id.choTv);
             caloriesTv = itemView.findViewById(R.id.caloriesTv);
+            foodtv = itemView.findViewById(R.id.foodListTV);
             deleteMeasurementButton = itemView.findViewById(R.id.deleteMeasurementButton);
             deleteMeasurementButton.setOnClickListener(view -> {
                 MeasurementWithFoods measurementWithFoods = measurementWithFoodsList.get(getAdapterPosition());
