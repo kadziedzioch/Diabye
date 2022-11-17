@@ -1,5 +1,6 @@
 package com.example.diabye.viewmodels;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +13,8 @@ import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.models.UserSettings;
 import com.example.diabye.repositories.MeasurementRepository;
 import com.example.diabye.repositories.UserSettingRepository;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 
 import java.io.File;
 import java.util.Date;
@@ -69,9 +72,12 @@ public class ExportFragmentViewModel extends ViewModel implements ExportCallback
     }
 
     public void createPdfDocument(List<MeasurementWithFoods> measurementWithFoodsList,
-                                  List<String> categories, String startDay, String endDay){
-        pdfService.createPdfDocument(measurementWithFoodsList, categories, startDay,endDay, this);
+                                  List<String> categories, String startDay, String endDay, LineChart lineChart,
+                                  PieChart pieChart){
+        pdfService.createPdfDocument(measurementWithFoodsList, categories, startDay,endDay,lineChart,pieChart, this);
     }
+
+
 
     @Override
     public void onFinish(File mFile) {

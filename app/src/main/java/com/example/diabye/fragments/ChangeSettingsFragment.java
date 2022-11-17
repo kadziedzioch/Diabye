@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,7 @@ public class ChangeSettingsFragment extends Fragment {
     }
 
     private void saveUserSettings(){
-        if(changeSettingsViewModel.getUserSettings().getValue()!=null){
+        if(changeSettingsViewModel.getUserSettings().getValue()!=null && validateData()){
             UserSettings userSettings = new UserSettings();
             userSettings.setUserId(sharedPrefRepository.getUserId());
             if(binding.pumpChangeButton.isChecked()){
@@ -105,6 +106,36 @@ public class ChangeSettingsFragment extends Fragment {
             AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
                     "Wait for data to load properly",true);
         }
+    }
+
+    private boolean validateData() {
+        String highSugarRange = binding.highRangeChangeEditText.getText().toString();
+        String lowSugarRange = binding.lowRangeChangeEditText.getText().toString();
+        String hyper = binding.hyperChangeEditText.getText().toString();
+        String hypo = binding.hypoChangeEditText.getText().toString();
+
+        if(TextUtils.isEmpty(highSugarRange)){
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    "Enter high sugar range!",true);
+            return false;
+        }
+        if(TextUtils.isEmpty(lowSugarRange)){
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    "Enter low sugar range!",true);
+            return false;
+        }
+        if(TextUtils.isEmpty(hyper)){
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    "Enter hyper!",true);
+            return false;
+        }
+        if(TextUtils.isEmpty(hypo)){
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    "Enter hypo!",true);
+            return false;
+        }
+
+        return true;
     }
 
 

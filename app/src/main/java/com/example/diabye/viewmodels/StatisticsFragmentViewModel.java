@@ -97,7 +97,7 @@ public class StatisticsFragmentViewModel extends ViewModel {
         }
         else if(Objects.equals(timeInterval, Constants.WEEK)){
             LocalDate firstdayOfWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(7);
-            LocalDate lastDayOfWeek =  LocalDate.now().with(DayOfWeek.SUNDAY);
+            LocalDate lastDayOfWeek =  LocalDate.now().with(DayOfWeek.SUNDAY).plusDays(1);
             ZoneId defaultZoneId = ZoneId.systemDefault();
             Date firstDate = Date.from(firstdayOfWeek.atStartOfDay(defaultZoneId).toInstant());
             Date secondDate = Date.from(lastDayOfWeek.atStartOfDay(defaultZoneId).toInstant());

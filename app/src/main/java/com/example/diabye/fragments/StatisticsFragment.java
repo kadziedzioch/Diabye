@@ -25,6 +25,7 @@ import com.example.diabye.models.MeasurementWithUserSettings;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.CustomSpinner;
+import com.example.diabye.utils.PercentValueFormatter;
 import com.example.diabye.viewmodels.StatisticsFragmentViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.components.LimitLine;
@@ -238,7 +239,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
 
         if(Objects.equals(timeInterval, Constants.WEEK)){
             LocalDate startWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(7);
-            LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(1);
+            LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY);
             String text = startWeek.getDayOfMonth()+ "."+ startWeek.getMonth().getValue()+" - "+ endWeek.getDayOfMonth() + "."+ endWeek.getMonth().getValue();
             binding.periodNameTv.setText(text);
         }
@@ -455,7 +456,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
         if(entries.size()<5){
             if(Objects.equals(statisticsFragmentViewModel.getTimeInterval().getValue(), Constants.WEEK)){
                 LocalDate startWeek = LocalDate.now().with(DayOfWeek.SUNDAY).minusDays(7);
-                LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY);
+                LocalDate endWeek = LocalDate.now().with(DayOfWeek.SUNDAY).plusDays(1);
                 binding.lineChartView.getXAxis().setAxisMinimum(startWeek.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
                 binding.lineChartView.getXAxis().setAxisMaximum(endWeek.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
             }
@@ -594,7 +595,7 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
 
     private void initPieChart(){
         binding.pieChartView.getLegend().setEnabled(false);
-        binding.pieChartView.setCenterText("Distribution");
+        //binding.pieChartView.setCenterText("Distribution");
         binding.pieChartView.setCenterTextSize(13f);
         binding.pieChartView.setCenterTextColor(ContextCompat.getColor(requireActivity(),R.color.dark_gray));
         binding.pieChartView.getDescription().setEnabled(false);
@@ -691,10 +692,3 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
     }
 }
 
-class PercentValueFormatter extends ValueFormatter {
-
-    @Override
-    public String getFormattedValue(float value) {
-        return String.format(Locale.getDefault(),"%d%%", (int) value);
-    }
-}

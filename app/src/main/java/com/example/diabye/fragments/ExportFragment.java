@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -26,14 +27,31 @@ import android.widget.Spinner;
 import com.example.diabye.R;
 import com.example.diabye.adapter.DocumentTypeSpinnerAdapter;
 import com.example.diabye.databinding.FragmentExportBinding;
+import com.example.diabye.models.Measurement;
 import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.models.TherapyType;
+import com.example.diabye.models.UserSettings;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
 import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.CustomSpinner;
+import com.example.diabye.utils.PercentValueFormatter;
 import com.example.diabye.viewmodels.ExportFragmentViewModel;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,7 +59,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerEventsListener, AdapterView.OnItemSelectedListener {
@@ -103,13 +124,224 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     }
 
+
+    private boolean countHyperAndHypos(List<MeasurementWithFoods> measurementWithFoodsList){
+        int hyper = 0;
+        int hypo = 0;
+        int inTargetRange = 0;
+        int others = 0;
+        UserSettings userSettings = exportFragmentViewModel.getUserSettings().getValue();
+        if(userSettings!=null){
+            for(MeasurementWithFoods measurementWithFoods: measurementWithFoodsList){
+                Measurement m = measurementWithFoods.getMeasurement();
+                if(m.getSugarLevel()>= userSettings.getHyperValue()){
+                    hyper++;
+                }
+                else if(m.getSugarLevel()<= userSettings.getHypoValue()
+                        && m.getSugarLevel()>0){
+                    hypo++;
+                }
+                else if(m.getSugarLevel()<= userSettings.getHighSugarRangeLevel()
+                        && m.getSugarLevel()>= userSettings.getLowSugarRangeLevel()){
+                    inTargetRange++;
+                }
+                else{
+                    if(m.getSugarLevel()>0){
+                        others++;
+                    }
+                }
+            }
+
+            if(hypo >0|| hyper>0|| inTargetRange>0){
+                initPieChart();
+                setUpPieChart(hyper,hypo,inTargetRange,others);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void initPieChart(){
+        binding.pieChartExport.getLegend().setEnabled(false);
+        binding.pieChartExport.setCenterTextColor(ContextCompat.getColor(requireActivity(),R.color.dark_gray));
+        binding.pieChartExport.getDescription().setEnabled(false);
+        binding.pieChartExport.setUsePercentValues(true);
+        binding.pieChartExport.setEntryLabelColor(Color.WHITE);
+        binding.pieChartExport.setMinimumHeight(350);
+        binding.pieChartExport.setMinimumWidth(350);
+        binding.pieChartExport.setDrawHoleEnabled(false);
+    }
+
+    private void setUpPieChart(int hyper, int hypo, int inTargetRange, int others) {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        String label = "type";
+        Map<String, Integer> typeAmountMap = new HashMap<>();
+        if(hypo>0){
+            typeAmountMap.put("Hypo",hypo);
+        }
+        if(hyper>0){
+            typeAmountMap.put("Hyper",hyper);
+        }
+        if(inTargetRange>0){
+            typeAmountMap.put("Target",inTargetRange);
+        }
+        if(others>0){
+            typeAmountMap.put("Others",others);
+        }
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(requireActivity(),R.color.main_blue));
+        colors.add(ContextCompat.getColor(requireActivity(),R.color.darker_blue));
+        colors.add(ContextCompat.getColor(requireActivity(),R.color.very_dark_blue));
+        colors.add(ContextCompat.getColor(requireActivity(),R.color.lighter_blue));
+
+        for(String type: typeAmountMap.keySet()){
+            pieEntries.add(new PieEntry(typeAmountMap.get(type).floatValue(), type));
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+        pieDataSet.setValueTextSize(11f);
+        pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setValueFormatter(new PercentValueFormatter());
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setDrawValues(true);
+        binding.pieChartExport.setData(pieData);
+        binding.pieChartExport.invalidate();
+    }
+
+    private List<Entry> createLineChart(List<MeasurementWithFoods> measurementWithFoodsList){
+        List<Entry> entries = new ArrayList<>();
+        float count = 0;
+        float values = 0;
+        float average = 0;
+        LocalDate date = measurementWithFoodsList.get(0).getMeasurement().getDatetime()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        for(MeasurementWithFoods measurementWithFoods: measurementWithFoodsList){
+            Measurement m = measurementWithFoods.getMeasurement();
+            LocalDate secondDate = m.getDatetime().toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (date.isEqual(secondDate)) {
+                count++;
+                values += m.getSugarLevel();
+                if (m.getSugarLevel() == 0) {
+                    count--;
+                }
+                if (Objects.equals(m.getMeasurementId(), measurementWithFoodsList.get(measurementWithFoodsList.size() - 1).getMeasurement().getMeasurementId())&& count>0) {
+                    average = values / count;
+                    if(average>0){
+                        entries.add(new Entry(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),average));
+                    }
+                }
+
+            }
+            else{
+                if(count>0){
+                    average = values / count;
+                    if(average>0){
+                        entries.add(new Entry(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),average));
+                    }
+                }
+                date = m.getDatetime()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                average = 0;
+                values = 0;
+                count = 0;
+                count++;
+
+                values += m.getSugarLevel();
+                if(m.getSugarLevel()==0){
+                    count--;
+                }
+
+                if (Objects.equals(m.getMeasurementId(), measurementWithFoodsList.get(measurementWithFoodsList.size() - 1).getMeasurement().getMeasurementId())&& count>0) {
+                    average = values / count;
+                    if(average>0){
+                        entries.add(new Entry(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),average));
+                    }
+                }
+            }
+        }
+
+        return entries;
+
+    }
+
+    private LineChart setUpLineChart(List<Entry> entries){
+        LineChart lineChart = binding.lineChartExport;
+        lineChart.getDescription().setEnabled(false);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getAxisLeft().setTextSize(12f);
+        lineChart.setExtraBottomOffset(20f);
+        lineChart.getXAxis().setTextSize(12f);
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+
+        lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("d MMM", Locale.ENGLISH);
+            @Override
+            public String getFormattedValue(float value) {
+                long millis = (long) value;
+                return mFormat.format(new Date(millis));
+            }
+        });
+
+        lineChart.getXAxis().setGranularityEnabled(true);
+        lineChart.getXAxis().setGranularity(1000f);
+
+        LineDataSet lineDataSet = new LineDataSet(entries,"value");
+        lineDataSet.setLineWidth(2f);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setCircleColor(ContextCompat.getColor(requireActivity(),R.color.main_blue));
+        lineDataSet.setCircleHoleColor(ContextCompat.getColor(requireActivity(),R.color.main_blue));
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawVerticalHighlightIndicator(false);
+        lineDataSet.setColor(ContextCompat.getColor(requireActivity(),R.color.main_blue));
+        lineDataSet.setValueTextColor(ContextCompat.getColor(requireActivity(),R.color.main_blue));
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.getLegend().setEnabled(false);
+        lineChart.getXAxis().resetAxisMaximum();
+        lineChart.getXAxis().resetAxisMinimum();
+        lineChart.setMinimumHeight(450);
+        lineChart.setMinimumWidth(300);
+        lineChart.setData(lineData);
+        lineChart.invalidate();
+        return lineChart;
+    }
+
     private void exportData(List<MeasurementWithFoods> measurementWithFoods){
         List<String> categories = createCategoryList();
         if(measurementWithFoods!=null&& measurementWithFoods.size()>0
                 && categories.size()>0 && Objects.equals(documentType, "PDF")){
             String startDay = binding.addStartDateButton.getText().toString();
             String endDay = binding.addEndDateButton.getText().toString();
-            exportFragmentViewModel.createPdfDocument(measurementWithFoods,categories, startDay,endDay);
+            List<Entry> entries= createLineChart(measurementWithFoods);
+            LineChart lineChart;
+            if(entries.size()>5){
+                lineChart = setUpLineChart(entries);
+            }
+            else{
+                lineChart = null;
+            }
+            PieChart pieChart;
+            if(countHyperAndHypos(measurementWithFoods)){
+                pieChart = binding.pieChartExport;
+            }
+            else{
+                pieChart = null;
+            }
+            exportFragmentViewModel.createPdfDocument(measurementWithFoods,categories, startDay,endDay,lineChart,pieChart);
         }
         else if(measurementWithFoods!=null&& measurementWithFoods.size()>0
                 && categories.size()>0 && Objects.equals(documentType, "CSV")){

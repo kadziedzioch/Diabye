@@ -65,7 +65,6 @@ public class SettingsFragment extends Fragment implements View.OnTouchListener {
         binding.changeSettingsCardView.setOnClickListener(view -> NavHostFragment.findNavController(SettingsFragment.this)
                 .navigate(R.id.action_settingsFragment_to_changeSettingsFragment));
 
-
         return binding.getRoot();
     }
 
