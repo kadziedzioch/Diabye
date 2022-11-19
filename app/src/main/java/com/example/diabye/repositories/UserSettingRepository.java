@@ -1,25 +1,21 @@
 package com.example.diabye.repositories;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.diabye.models.User;
 import com.example.diabye.models.UserSettings;
 import com.example.diabye.utils.Constants;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class UserSettingRepository {
 
-    private MutableLiveData<Boolean> isAddingSuccessful = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isUpdatingSuccessful = new MutableLiveData<>();
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private MutableLiveData<UserSettings> userSettings = new MutableLiveData<>();
-    private FirebaseFirestore mFirestore;
+    private final MutableLiveData<Boolean> isAddingSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isUpdatingSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<UserSettings> userSettings = new MutableLiveData<>();
+    private final FirebaseFirestore mFirestore;
     public UserSettingRepository() {
         mFirestore = FirebaseFirestore.getInstance();
     }

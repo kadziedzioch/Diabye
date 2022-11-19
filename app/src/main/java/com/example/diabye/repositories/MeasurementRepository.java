@@ -1,16 +1,12 @@
 package com.example.diabye.repositories;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
 import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.utils.Constants;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,17 +21,15 @@ import java.util.List;
 
 public class MeasurementRepository {
 
-    private MutableLiveData<Boolean> isSavingSuccessful = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isDeletingSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSavingSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isDeletingSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<List<MeasurementWithFoods>> measurementsWithFoods = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
+    private final MutableLiveData<List<Measurement>> measurementsWithTimeInterval = new MutableLiveData<>();
+    private final MutableLiveData<List<Food>> foods = new MutableLiveData<>();
+    private final FirebaseFirestore mFirestore;
 
-    private MutableLiveData<List<MeasurementWithFoods>> measurementsWithFoods = new MutableLiveData<>();
-
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
-
-    private MutableLiveData<List<Measurement>> measurementsWithTimeInterval = new MutableLiveData<>();
-    private MutableLiveData<List<Food>> foods = new MutableLiveData<>();
-    private FirebaseFirestore mFirestore;
     public MeasurementRepository() {
         mFirestore = FirebaseFirestore.getInstance();
     }
@@ -46,10 +40,6 @@ public class MeasurementRepository {
 
     public MutableLiveData<List<Food>> getFoods() {
         return foods;
-    }
-
-    public LiveData<List<Measurement>> getMeasurements() {
-        return measurements;
     }
 
     public LiveData<Boolean> getIsSavingSuccessful() {

@@ -1,5 +1,6 @@
 package com.example.diabye.repositories;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -32,7 +33,7 @@ public class RetrofitRepository {
     public LiveData<List<FoodRetrofit>> searchFood(String foodName){
         apiInterface.getData(foodName).enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                 if(response.body() !=null && response.isSuccessful()){
                     ApiResponse apiResponse = response.body();
                     ArrayList<FoodRetrofit> foodArrayList = new ArrayList<>();
@@ -44,7 +45,7 @@ public class RetrofitRepository {
                 }
             }
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                 call.cancel();
             }
         });

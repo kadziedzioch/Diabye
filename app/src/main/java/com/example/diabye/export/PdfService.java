@@ -4,11 +4,6 @@ package com.example.diabye.export;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Environment;
-
-import androidx.core.content.ContextCompat;
-
-import com.example.diabye.R;
-import com.example.diabye.models.Category;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
 import com.example.diabye.models.MeasurementWithFoods;
@@ -16,12 +11,6 @@ import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.FoodUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -34,18 +23,14 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -92,7 +77,7 @@ public class PdfService {
 
         executorService.execute(() -> {
             try{
-                String fileName = UUID.randomUUID().toString()+".pdf";
+                String fileName = "Diabye "+UUID.randomUUID().toString()+".pdf";
                 File file = createFile(fileName);
                 PdfWriter writer = setPdfWriter(file);
                 Document document = createDocument(writer);

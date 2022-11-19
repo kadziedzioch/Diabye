@@ -3,12 +3,8 @@ package com.example.diabye.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +13,14 @@ import com.example.diabye.R;
 import com.example.diabye.databinding.FragmentMainBinding;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
-import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.viewmodels.MainActivityViewModel;
-import com.google.firebase.Timestamp;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,12 +31,6 @@ public class MainFragment extends Fragment {
     private MainActivityViewModel mainActivityViewModel;
 
     public MainFragment() {
-    }
-
-
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        return fragment;
     }
 
     @Override

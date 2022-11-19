@@ -33,9 +33,6 @@ public class ChangeSettingsFragment extends Fragment {
 
     }
 
-    public static ChangeSettingsFragment newInstance() {
-        return new ChangeSettingsFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,21 +59,22 @@ public class ChangeSettingsFragment extends Fragment {
         });
         changeSettingsViewModel.getUserSettingsData(sharedPrefRepository.getUserId());
         changeSettingsViewModel.getUserSettings().observe(getViewLifecycleOwner(), this::setUpData);
-
-        changeSettingsViewModel.getIsUpdatingSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
-            if(isSuccessful){
-                AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
-                        "Successfully updated data", false);
-            }
-            else{
-                AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
-                        changeSettingsViewModel.getErrorMessage().getValue(), true);
-            }
-        });
+        changeSettingsViewModel.getIsUpdatingSuccessful().observe(getViewLifecycleOwner(), this::showMessage);
         binding.changeUserSettingsButton.setOnClickListener(view12 -> {
             saveUserSettings();
         });
 
+    }
+
+    private void showMessage(Boolean isSuccessful){
+        if(isSuccessful){
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    "Successfully updated data", false);
+        }
+        else{
+            AppUtils.showMessage(requireActivity(),binding.hypoChangeEditText,
+                    changeSettingsViewModel.getErrorMessage().getValue(), true);
+        }
     }
 
     private void saveUserSettings(){

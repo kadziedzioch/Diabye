@@ -8,12 +8,10 @@ import com.example.diabye.utils.Constants;
 
 public class SharedPrefRepository {
 
-    private final Context context;
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
     public SharedPrefRepository(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences(Constants.DIABYE_PREFS, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }

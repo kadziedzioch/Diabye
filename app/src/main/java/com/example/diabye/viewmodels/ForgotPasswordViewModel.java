@@ -1,17 +1,13 @@
 package com.example.diabye.viewmodels;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordViewModel extends ViewModel {
 
-    private MutableLiveData<Boolean> isOperationSuccessful = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isOperationSuccessful = new MutableLiveData<>();
     public String errorMessage="";
     public ForgotPasswordViewModel() {
     }

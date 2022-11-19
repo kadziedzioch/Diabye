@@ -1,18 +1,16 @@
 package com.example.diabye.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.diabye.models.User;
 import com.example.diabye.repositories.UserRepository;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginViewModel  extends ViewModel {
-    private LiveData<Boolean> isLoginSuccessful;
-    private LiveData<String> errorMessage;
-    private LiveData<User> currentUser;
-    private UserRepository userRepository;
+    private final LiveData<Boolean> isLoginSuccessful;
+    private final LiveData<String> errorMessage;
+    private final LiveData<User> currentUser;
+    private final UserRepository userRepository;
     public LoginViewModel() {
         userRepository = new UserRepository();
         isLoginSuccessful = userRepository.getIsLoginUserSuccessful();

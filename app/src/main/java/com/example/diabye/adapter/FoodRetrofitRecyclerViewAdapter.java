@@ -18,8 +18,8 @@ import java.util.Locale;
 
 public class FoodRetrofitRecyclerViewAdapter extends RecyclerView.Adapter<FoodRetrofitRecyclerViewAdapter.ViewHolder>{
 
-    private List<FoodRetrofit> foodArrayList;
-    private RecyclerFoodRetrofitListener foodRetrofitListener;
+    private final List<FoodRetrofit> foodArrayList;
+    private final RecyclerFoodRetrofitListener foodRetrofitListener;
 
     public FoodRetrofitRecyclerViewAdapter(List<FoodRetrofit> foodArrayList, RecyclerFoodRetrofitListener foodRetrofitListener) {
         this.foodArrayList = foodArrayList;

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ import com.example.diabye.databinding.FragmentNewEntryBinding;
 import com.example.diabye.listeners.RecyclerFoodListener;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
-import com.example.diabye.models.UserSettings;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
 import com.example.diabye.viewmodels.MainActivityViewModel;
@@ -37,7 +34,6 @@ import com.example.diabye.viewmodels.NewEntryViewModel;
 
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -64,10 +60,6 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     }
 
-    public static NewEntryFragment newInstance() {
-        NewEntryFragment fragment = new NewEntryFragment();
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +67,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentNewEntryBinding.inflate(inflater,container,false);
@@ -207,14 +199,24 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             }
         }
 
-        if(TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()) && TextUtils.isEmpty(binding.mealinsulinET.getText().toString().trim())
-        && TextUtils.isEmpty(binding.corrInsulinET.getText().toString().trim()) && TextUtils.isEmpty(binding.sysPressureET.getText().toString().trim())
-        && TextUtils.isEmpty(binding.activityET.getText().toString().trim()) && TextUtils.isEmpty(binding.CHOValueTextView.getText().toString().trim())
-        && TextUtils.isEmpty(binding.tempBasalET.getText().toString().trim()) && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim())){
-            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill at least one field",true);
-            return false;
+        if(newEntryViewModel.getFoodList().getValue()!=null){
+            if(TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()) && TextUtils.isEmpty(binding.mealinsulinET.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.corrInsulinET.getText().toString().trim()) && TextUtils.isEmpty(binding.sysPressureET.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.activityET.getText().toString().trim()) && TextUtils.isEmpty(binding.tempBasalET.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim()) && newEntryViewModel.getFoodList().getValue().size()==0){
+                AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill at least one field",true);
+                return false;
+            }
         }
-
+        else{
+            if(TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()) && TextUtils.isEmpty(binding.mealinsulinET.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.corrInsulinET.getText().toString().trim()) && TextUtils.isEmpty(binding.sysPressureET.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.activityET.getText().toString().trim()) && TextUtils.isEmpty(binding.CHOValueTextView.getText().toString().trim())
+                    && TextUtils.isEmpty(binding.tempBasalET.getText().toString().trim()) && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim())){
+                AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill at least one field",true);
+                return false;
+            }
+        }
         return true;
     }
 
@@ -330,7 +332,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        String date = LocalDate.of(year,month+1,day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        String date = LocalDate.of(year,month+1,day).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         binding.addDateButton.setText(date);
     }
 

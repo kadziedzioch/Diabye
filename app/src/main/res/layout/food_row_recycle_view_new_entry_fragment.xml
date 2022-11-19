@@ -56,7 +56,8 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_baseline_delete_outline_24"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            android:contentDescription="@string/delete_food"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     </LinearLayout>
 

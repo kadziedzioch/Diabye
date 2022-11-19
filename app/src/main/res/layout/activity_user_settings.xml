@@ -126,9 +126,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hiper_hypo_text_info"
-                tools:ignore="TextContrastCheck" />
+                tools:ignore="TextContrastCheck"
+                android:importantForAutofill="no" />
             <EditText
                 android:id="@+id/high_range_editText"
+                android:importantForAutofill="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -149,6 +151,7 @@
                 tools:ignore="TextContrastCheck" />
             <EditText
                 android:id="@+id/low_range_editText"
+                android:importantForAutofill="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -172,6 +175,7 @@
 
             <EditText
                 android:id="@+id/hypo_editText"
+                android:importantForAutofill="no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

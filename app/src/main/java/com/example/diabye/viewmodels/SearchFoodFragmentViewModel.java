@@ -12,15 +12,13 @@ import java.util.List;
 
 public class SearchFoodFragmentViewModel extends ViewModel {
 
-    private RetrofitRepository retrofitRepository;
-    private MutableLiveData<String> foodName = new MutableLiveData<>();
-    private LiveData<List<FoodRetrofit>> foodRetrofitList;
+    private final MutableLiveData<String> foodName = new MutableLiveData<>();
+    private final LiveData<List<FoodRetrofit>> foodRetrofitList;
 
     public SearchFoodFragmentViewModel() {
-        retrofitRepository = RetrofitRepository.getInstance();
+        RetrofitRepository retrofitRepository = RetrofitRepository.getInstance();
         foodName.postValue("");
-        foodRetrofitList = Transformations.switchMap(foodName, name ->
-                retrofitRepository.searchFood(name)
+        foodRetrofitList = Transformations.switchMap(foodName, retrofitRepository::searchFood
         );
     }
 

@@ -37,7 +37,6 @@ import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.CustomSpinner;
 import com.example.diabye.utils.PercentValueFormatter;
 import com.example.diabye.viewmodels.ExportFragmentViewModel;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -76,9 +75,6 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     }
 
-    public static ExportFragment newInstance() {
-        return new ExportFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

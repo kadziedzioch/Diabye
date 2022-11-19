@@ -1,11 +1,8 @@
 package com.example.diabye.adapter;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,15 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.diabye.R;
 import com.example.diabye.listeners.RecyclerFoodListener;
 import com.example.diabye.models.Food;
-import com.example.diabye.models.retrofitModels.FoodRetrofit;
 
 import java.util.List;
 
 public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerViewAdapter.ViewHolder> {
 
 
-    private List<Food> foodArrayList;
-    private RecyclerFoodListener recyclerFoodListener;
+    private final List<Food> foodArrayList;
+    private final RecyclerFoodListener recyclerFoodListener;
 
     public FoodRecyclerViewAdapter(List<Food> foodArrayList, RecyclerFoodListener recyclerFoodListener) {
         this.foodArrayList = foodArrayList;
@@ -66,12 +62,9 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
             quantity = itemView.findViewById(R.id.foodQuantityNewEntryTV);
             deleteFoodButton = itemView.findViewById(R.id.deleteFoodButton);
 
-            deleteFoodButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Food food = foodArrayList.get(getAdapterPosition());
-                    recyclerFoodListener.onDeleteButtonClicked(food);
-                }
+            deleteFoodButton.setOnClickListener(view -> {
+                Food food = foodArrayList.get(getAdapterPosition());
+                recyclerFoodListener.onDeleteButtonClicked(food);
             });
 
         }

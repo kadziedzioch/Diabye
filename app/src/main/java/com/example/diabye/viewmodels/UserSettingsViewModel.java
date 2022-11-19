@@ -9,10 +9,10 @@ import com.example.diabye.repositories.UserSettingRepository;
 
 public class UserSettingsViewModel extends ViewModel {
 
-    private MutableLiveData<String> selectedTherapyType = new MutableLiveData<>();
+    private final MutableLiveData<String> selectedTherapyType = new MutableLiveData<>();
     public LiveData<String> errorMessage;
     public LiveData<Boolean> isAddingSuccessful;
-    private UserSettingRepository userSettingRepository;
+    private final UserSettingRepository userSettingRepository;
     public UserSettingsViewModel() {
         userSettingRepository = new UserSettingRepository();
         isAddingSuccessful = userSettingRepository.getIsAddingSuccessful();

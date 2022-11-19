@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,7 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="10dp"
-            android:background="@drawable/ic_baseline_cancel_24" />
+            android:background="@drawable/ic_baseline_cancel_24"
+            android:contentDescription="@string/cancel"
+            tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
 
         <TextView
             android:id="@+id/foodNameTVDialog"
@@ -53,9 +56,12 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/custom_input"
+                android:hint="@string/text_20"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:textAlignment="center"
-                android:textColor="@color/dark_gray" />
+                android:textColor="@color/dark_gray"
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
             <TextView
                 android:id="@+id/unitTVDialog"
@@ -73,7 +79,8 @@
             android:layout_margin="10dp"
             android:background="@drawable/button_background"
             android:text="@string/add_text"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
 
 

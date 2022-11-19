@@ -1,13 +1,10 @@
 package com.example.diabye.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.diabye.R;
@@ -25,35 +22,31 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
         if(getSupportActionBar() !=null){
             getSupportActionBar().hide();
         }
         forgotPasswordViewModel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
-        binding.sendPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppUtils.hideKeyboard(view);
-                if(validateEntry()){
-                    forgotPasswordViewModel.sendEmail(binding.forgotEmailEditText.getText().toString().trim());
-                }
-            }
-        });
+        binding.sendPasswordButton.setOnClickListener(this::sendMessage);
+        forgotPasswordViewModel.getIsOperationSuccessful().observe(this, this::displayMessage);
+    }
 
-        forgotPasswordViewModel.getIsOperationSuccessful().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isSuccessful) {
-                if(isSuccessful){
-                    AppUtils.showMessage(ForgotPasswordActivity.this, binding.forgotEmailEditText,
-                            getResources().getString(R.string.email_sent_text),false);
-                }
-                else{
-                    AppUtils.showMessage(ForgotPasswordActivity.this, binding.forgotEmailEditText,
-                            forgotPasswordViewModel.errorMessage,true);
-                }
-            }
-        });
+    public void sendMessage(View view){
+        AppUtils.hideKeyboard(view);
+        if(validateEntry()){
+            forgotPasswordViewModel.sendEmail(binding.forgotEmailEditText.getText().toString().trim());
+        }
+    }
 
-
+    public void displayMessage(Boolean isSuccessful){
+        if(isSuccessful){
+            AppUtils.showMessage(ForgotPasswordActivity.this, binding.forgotEmailEditText,
+                    getResources().getString(R.string.email_sent_text),false);
+        }
+        else{
+            AppUtils.showMessage(ForgotPasswordActivity.this, binding.forgotEmailEditText,
+                    forgotPasswordViewModel.errorMessage,true);
+        }
     }
 
     public boolean validateEntry(){

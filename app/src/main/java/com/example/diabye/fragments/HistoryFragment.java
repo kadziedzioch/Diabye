@@ -23,7 +23,6 @@ import com.example.diabye.databinding.FragmentHistoryBinding;
 import com.example.diabye.listeners.CalendarItemListener;
 import com.example.diabye.listeners.RecyclerMeasurementListener;
 import com.example.diabye.models.MeasurementWithFoods;
-import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.CalendarUtils;
 import com.example.diabye.viewmodels.MainActivityViewModel;
 
@@ -31,24 +30,19 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class HistoryFragment extends Fragment implements CalendarItemListener, View.OnClickListener, RecyclerMeasurementListener {
 
     private FragmentHistoryBinding binding;
-    private MeasurementAdapter measurementAdapter;
     private RecyclerView recyclerView;
     private MainActivityViewModel mainActivityViewModel;
-    private SharedPrefRepository sharedPrefRepository;
+
     public HistoryFragment() {
 
     }
 
-
-    public static HistoryFragment newInstance() {
-        HistoryFragment fragment = new HistoryFragment();
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +63,6 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
         super.onViewCreated(view, savedInstanceState);
 
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
-        sharedPrefRepository = new SharedPrefRepository(requireActivity());
 
         CalendarUtils.selectedDate = LocalDate.now();
         setWeekView();
@@ -80,14 +73,8 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
 
         mainActivityViewModel.getMeasurementsWithFoods()
                 .observe(getViewLifecycleOwner(), measurementWithFoods -> {
-                    if(measurementWithFoods.size()==0){
-                        binding.noDataTV.setVisibility(View.VISIBLE);
-                    }
-                    else{
-                        binding.noDataTV.setVisibility(View.GONE);
-                    }
-                    measurementAdapter = new MeasurementAdapter(measurementWithFoods, HistoryFragment.this);
-                    recyclerView.setAdapter(measurementAdapter);
+                    setVisibility(measurementWithFoods);
+                    setAdapter(measurementWithFoods);
                 });
 
         mainActivityViewModel.getIsDeletingSuccessful()
@@ -97,6 +84,20 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
                         mainActivityViewModel.clearIsDeletingSuccessful();
                     }
                 });
+    }
+
+    private void setAdapter(List<MeasurementWithFoods> measurementWithFoods){
+        MeasurementAdapter measurementAdapter = new MeasurementAdapter(measurementWithFoods, HistoryFragment.this);
+        recyclerView.setAdapter(measurementAdapter);
+    }
+
+    private void setVisibility(List<MeasurementWithFoods> measurementWithFoods){
+        if(measurementWithFoods.size()==0){
+            binding.noDataTV.setVisibility(View.VISIBLE);
+        }
+        else{
+            binding.noDataTV.setVisibility(View.GONE);
+        }
     }
 
     public void setMeasurementRecyclerView(){
@@ -142,8 +143,7 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
         }
     }
 
-    @Override
-    public void OnMeasurementDeleteClicked(MeasurementWithFoods measurementWithFoods) {
+    private void showDialog(MeasurementWithFoods measurementWithFoods){
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
@@ -156,13 +156,16 @@ public class HistoryFragment extends Fragment implements CalendarItemListener, V
                     break;
             }
         };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("Are you sure you want to delete this measurement?")
                 .setPositiveButton("Delete", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener)
                 .show();
+    }
 
+    @Override
+    public void OnMeasurementDeleteClicked(MeasurementWithFoods measurementWithFoods) {
+       showDialog(measurementWithFoods);
     }
 
 

@@ -68,14 +68,14 @@
             app:enterAnim="@anim/from_down"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@anim/to_down"/>
+            app:popExitAnim="@anim/to_down" />
         <action
             android:id="@+id/action_settingsFragment_to_changeSettingsFragment"
             app:destination="@id/changeSettingsFragment"
             app:enterAnim="@anim/from_down"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@anim/to_down"/>
+            app:popExitAnim="@anim/to_down" />
     </fragment>
 
     <fragment
@@ -87,7 +87,7 @@
             android:id="@+id/action_exportFragment_to_settingsFragment"
             app:destination="@id/settingsFragment"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/to_down"/>
+            app:exitAnim="@anim/to_down" />
     </fragment>
     <fragment
         android:id="@+id/changeSettingsFragment"
@@ -98,6 +98,6 @@
             android:id="@+id/action_changeSettingsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/to_down"/>
+            app:exitAnim="@anim/to_down" />
     </fragment>
 </navigation>

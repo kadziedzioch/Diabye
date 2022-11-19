@@ -64,10 +64,6 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
     }
 
 
-    public static StatisticsFragment newInstance() {
-        return new StatisticsFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,18 +82,8 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MeasurementSpinnerAdapter measurementSpinnerAdapter = new MeasurementSpinnerAdapter(requireActivity(), binding.spinnerMeasurement.getId(),
-                Constants.getMeasurementCategoryList());
-        binding.spinnerMeasurement.setAdapter(measurementSpinnerAdapter);
-        binding.spinnerMeasurement.setSpinnerEventsListener(this);
-        binding.spinnerMeasurement.setOnItemSelectedListener(this);
 
-        TimeIntervalSpinnerAdapter timeIntervalSpinnerAdapter = new TimeIntervalSpinnerAdapter(requireActivity(), binding.spinnerTime.getId(),
-                Constants.getTimeList());
-        binding.spinnerTime.setAdapter(timeIntervalSpinnerAdapter);
-        binding.spinnerTime.setSpinnerEventsListener(this);
-        binding.spinnerTime.setOnItemSelectedListener(this);
-
+        setUpSpinners();
         statisticsFragmentViewModel.setUserId(sharedPrefRepository.getUserId());
         statisticsFragmentViewModel.getMeasurementsWithUserSettings().observe(getViewLifecycleOwner(),
                 measurementWithUserSettings -> {
@@ -112,22 +98,40 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
                 countAverages(measurementWithUserSettings);
             }
             else{
-                if(binding.noDataTv.getVisibility() == View.GONE){
-                    binding.noDataTv.setVisibility(View.VISIBLE);
-                }
-                if(binding.lineChartCardView.getVisibility() == View.VISIBLE){
-                    binding.lineChartCardView.setVisibility(View.GONE);
-                }
-                if(binding.pieChartCardView.getVisibility() == View.VISIBLE){
-                    binding.pieChartCardView.setVisibility(View.GONE);
-                }
-                if(binding.statisticsCardView.getVisibility() == View.VISIBLE){
-                    binding.statisticsCardView.setVisibility(View.GONE);
-                }
+               setUpVisibility();
             }
         });
+   }
 
 
+
+   private void setUpSpinners(){
+       MeasurementSpinnerAdapter measurementSpinnerAdapter = new MeasurementSpinnerAdapter(requireActivity(), binding.spinnerMeasurement.getId(),
+               Constants.getMeasurementCategoryList());
+       binding.spinnerMeasurement.setAdapter(measurementSpinnerAdapter);
+       binding.spinnerMeasurement.setSpinnerEventsListener(this);
+       binding.spinnerMeasurement.setOnItemSelectedListener(this);
+
+       TimeIntervalSpinnerAdapter timeIntervalSpinnerAdapter = new TimeIntervalSpinnerAdapter(requireActivity(), binding.spinnerTime.getId(),
+               Constants.getTimeList());
+       binding.spinnerTime.setAdapter(timeIntervalSpinnerAdapter);
+       binding.spinnerTime.setSpinnerEventsListener(this);
+       binding.spinnerTime.setOnItemSelectedListener(this);
+   }
+
+   private void setUpVisibility(){
+       if(binding.noDataTv.getVisibility() == View.GONE){
+           binding.noDataTv.setVisibility(View.VISIBLE);
+       }
+       if(binding.lineChartCardView.getVisibility() == View.VISIBLE){
+           binding.lineChartCardView.setVisibility(View.GONE);
+       }
+       if(binding.pieChartCardView.getVisibility() == View.VISIBLE){
+           binding.pieChartCardView.setVisibility(View.GONE);
+       }
+       if(binding.statisticsCardView.getVisibility() == View.VISIBLE){
+           binding.statisticsCardView.setVisibility(View.GONE);
+       }
    }
 
 

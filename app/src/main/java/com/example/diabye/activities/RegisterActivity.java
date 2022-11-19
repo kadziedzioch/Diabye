@@ -1,15 +1,10 @@
 package com.example.diabye.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
-
 import com.example.diabye.R;
 import com.example.diabye.databinding.ActivityRegisterBinding;
 import com.example.diabye.utils.AppUtils;
@@ -31,38 +26,45 @@ public class RegisterActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
-        registerViewModel.init();
+
 
         binding.loginTextView.setOnClickListener(myView -> onBackPressed());
         binding.registerButton.setOnClickListener(view1 -> {
-            AppUtils.hideKeyboard(binding.emailRegisterEditText);
-            boolean isValid = validateInput();
-            if(isValid){
-                binding.registerProgressBar.setVisibility(View.VISIBLE);
-                String email = binding.emailRegisterEditText.getText().toString().trim();
-                String password = binding.passRegisterEditText.getText().toString().trim();
-                String name = binding.personNameEditText.getText().toString().trim();
-                registerViewModel.registerUser(email,password,name);
-            }
+            registerUser();
         });
 
-        registerViewModel.getIsRegisterSuccessful().observe(this, isSuccessful -> {
-            binding.registerProgressBar.setVisibility(View.INVISIBLE);
-            if(isSuccessful){
-                AppUtils.showMessage(RegisterActivity.this,binding.confirmPassRegisterEditText,
-                        getResources().getString(R.string.register_successful),false);
-                finish();
-            }
-            else{
-                AppUtils.showMessage(RegisterActivity.this,binding.confirmPassRegisterEditText,
-                        registerViewModel.getRegisterErrorMessage().getValue(),true);
-            }
-        });
+        registerViewModel.getIsRegisterSuccessful().observe(this, this::showMessage);
+    }
+
+    private void showMessage(boolean isSuccessful){
+        binding.registerProgressBar.setVisibility(View.INVISIBLE);
+        if(isSuccessful){
+            AppUtils.showMessage(RegisterActivity.this,binding.confirmPassRegisterEditText,
+                    getResources().getString(R.string.register_successful),false);
+            finish();
+        }
+        else{
+            AppUtils.showMessage(RegisterActivity.this,binding.confirmPassRegisterEditText,
+                    registerViewModel.getRegisterErrorMessage().getValue(),true);
+        }
+    }
+
+
+    private void registerUser(){
+        AppUtils.hideKeyboard(binding.emailRegisterEditText);
+        boolean isValid = validateInput();
+        if(isValid){
+            binding.registerProgressBar.setVisibility(View.VISIBLE);
+            String email = binding.emailRegisterEditText.getText().toString().trim();
+            String password = binding.passRegisterEditText.getText().toString().trim();
+            String name = binding.personNameEditText.getText().toString().trim();
+            registerViewModel.registerUser(email,password,name);
+        }
     }
 
 
 
-    public boolean validateInput(){
+    private boolean validateInput(){
         if(TextUtils.isEmpty(binding.personNameEditText.getText().toString().trim())){
             AppUtils.showMessage(this,binding.personNameEditText,getResources().getString(R.string.enter_name_text),true);
             return false;

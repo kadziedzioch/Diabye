@@ -8,9 +8,7 @@ import com.example.diabye.models.Measurement;
 import com.example.diabye.models.MeasurementWithFoods;
 import com.example.diabye.utils.Constants;
 import com.example.diabye.utils.FoodUtils;
-import com.itextpdf.layout.element.Table;
 import com.opencsv.CSVWriter;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,7 +49,7 @@ public class CsvService {
                 File file = createFile(fileName);
                 CSVWriter csvWriter = setUpWriters(file);
 
-                List<String[]> data = new ArrayList<String[]>();
+                List<String[]> data = new ArrayList<>();
 
                 String[] firstRow;
                 if(!categories.contains(Constants.FOOD_INFO)) {

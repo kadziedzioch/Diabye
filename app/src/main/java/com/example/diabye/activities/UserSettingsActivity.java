@@ -1,19 +1,14 @@
 package com.example.diabye.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.RadioGroup;
-
 import com.example.diabye.R;
 import com.example.diabye.databinding.ActivityUserSettingsBinding;
 import com.example.diabye.models.TherapyType;
-import com.example.diabye.models.User;
 import com.example.diabye.models.UserSettings;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
@@ -55,13 +50,14 @@ public class UserSettingsActivity extends AppCompatActivity {
             }
         });
 
-        binding.submitUserSettingsButton.setOnClickListener(view1 -> {
-            AppUtils.hideKeyboard(view1);
-            if(validateInput()){
-                saveUserInfo();
-            }
-        });
+        setUpButtons();
         userSettingsViewModel.selectTherapyType(TherapyType.PEN.name());
+
+
+    }
+
+    private void setUpButtons(){
+        binding.submitUserSettingsButton.setOnClickListener(this::saveUserInfo);
         binding.therapyTypeGroup.setOnCheckedChangeListener((radioGroup, selectedButtonId) -> {
             if(selectedButtonId == R.id.pens_button){
                 userSettingsViewModel.selectTherapyType(TherapyType.PEN.name());
@@ -71,18 +67,21 @@ public class UserSettingsActivity extends AppCompatActivity {
             }
 
         });
-
     }
 
-    private void saveUserInfo(){
-        double hypoValue =Double.parseDouble(binding.hypoEditText.getText().toString().trim());
-        double hyperValue =Double.parseDouble(binding.hyperEditText.getText().toString().trim());
-        double minRange =Double.parseDouble(binding.lowRangeEditText.getText().toString().trim());
-        double maxRange =Double.parseDouble(binding.highRangeEditText.getText().toString().trim());
-        String userId = sharedPrefRepository.getUserId();
-        if(!Objects.equals(userId, "")){
-            UserSettings userSettings = new UserSettings(minRange,maxRange,hypoValue,hyperValue,userId);
-            userSettingsViewModel.saveUserSettings(userSettings);
+
+    private void saveUserInfo(View view){
+        AppUtils.hideKeyboard(view);
+        if(validateInput()) {
+            double hypoValue = Double.parseDouble(binding.hypoEditText.getText().toString().trim());
+            double hyperValue = Double.parseDouble(binding.hyperEditText.getText().toString().trim());
+            double minRange = Double.parseDouble(binding.lowRangeEditText.getText().toString().trim());
+            double maxRange = Double.parseDouble(binding.highRangeEditText.getText().toString().trim());
+            String userId = sharedPrefRepository.getUserId();
+            if (!Objects.equals(userId, "")) {
+                UserSettings userSettings = new UserSettings(minRange, maxRange, hypoValue, hyperValue, userId);
+                userSettingsViewModel.saveUserSettings(userSettings);
+            }
         }
     }
 

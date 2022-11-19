@@ -2,7 +2,6 @@ package com.example.diabye.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,8 +9,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,12 +16,9 @@ import android.view.ViewGroup;
 
 import com.example.diabye.R;
 import com.example.diabye.activities.LoginActivity;
-import com.example.diabye.activities.MainActivity;
 import com.example.diabye.databinding.FragmentSettingsBinding;
 import com.example.diabye.repositories.SharedPrefRepository;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
 
 public class SettingsFragment extends Fragment implements View.OnTouchListener {
 
@@ -34,10 +28,6 @@ public class SettingsFragment extends Fragment implements View.OnTouchListener {
 
     }
 
-
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,13 +40,18 @@ public class SettingsFragment extends Fragment implements View.OnTouchListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater,container,false);
+        setUpButtons();
+        return binding.getRoot();
+    }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpButtons(){
         binding.exportCardView.setOnTouchListener(this);
         binding.changeSettingsCardView.setOnTouchListener(this);
         binding.logoutCardView.setOnTouchListener(this);
 
         binding.logoutCardView.setOnClickListener(view -> {
-           logOut();
+            logOut();
         });
 
         binding.exportCardView.setOnClickListener(view -> NavHostFragment.findNavController(SettingsFragment.this)
@@ -64,8 +59,6 @@ public class SettingsFragment extends Fragment implements View.OnTouchListener {
 
         binding.changeSettingsCardView.setOnClickListener(view -> NavHostFragment.findNavController(SettingsFragment.this)
                 .navigate(R.id.action_settingsFragment_to_changeSettingsFragment));
-
-        return binding.getRoot();
     }
 
 

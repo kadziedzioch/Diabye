@@ -126,4 +126,16 @@
     <string name="no_category_selected">No category has been selected</string>
     <string name="change_your_settings">CHANGE YOUR SETTINGS</string>
     <string name="no_measurements">No measurements</string>
+    <string name="cancel">Cancel</string>
+    <string name="text_20">20</string>
+    <string name="delete_food">delete food</string>
+    <string name="calendar">calendar</string>
+    <string name="select_date">select Date</string>
+    <string name="select_time">select Time</string>
+    <string name="c">C</string>
+    <string name="f">F</string>
+    <string name="p">P</string>
+    <string name="export">export</string>
+    <string name="averages_per_day">Averages per day</string>
+    <string name="distribution">Distribution</string>
 </resources>

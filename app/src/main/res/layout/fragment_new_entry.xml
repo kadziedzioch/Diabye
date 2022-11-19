@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/date_and_time_text"
                     android:textSize="15sp" />
 
@@ -52,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_baseline_calendar_month_24"
+                    android:contentDescription="@string/calendar"
                     tools:ignore="ImageContrastCheck" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -60,7 +62,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/select_date"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp" />
@@ -71,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/select_time"
                     android:textAlignment="viewStart"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp" />
@@ -88,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/sugar_level_text"
                     android:textSize="15sp" />
 
@@ -112,7 +118,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/dark_gray"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -126,6 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/meal_insulin_text"
                     android:textSize="15sp" />
 
@@ -149,7 +156,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck" />
+                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -164,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/corr_insulin_text"
                     android:textSize="15sp" />
 
@@ -187,7 +195,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -205,6 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/temp_basal_text"
                     android:textSize="15sp" />
 
@@ -245,6 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/temp_basal_time_text"
                     android:textSize="15sp" />
 
@@ -285,6 +295,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/long_insulin_text"
                     android:textSize="15sp" />
 
@@ -323,6 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/systolic_pressure_text"
                     android:textSize="15sp" />
 
@@ -346,7 +358,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck,DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
 
@@ -360,6 +372,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/diastolic_pressure_text"
                     android:textSize="15sp" />
 
@@ -383,7 +396,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -397,6 +410,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/activity_text"
                     android:textSize="15sp" />
 
@@ -420,7 +434,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -435,6 +449,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/carbs_text"
                     android:textSize="15sp" />
 
@@ -472,6 +487,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/fats_amp_protein_text"
                     android:textSize="15sp" />
 
@@ -509,6 +525,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/calories_text"
                     android:textSize="15sp" />
 

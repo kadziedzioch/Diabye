@@ -48,24 +48,27 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="C"
-            android:textColor="@color/white" />
+            android:text="@string/c"
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="F"
-            android:textColor="@color/white" />
+            android:text="@string/f"
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="P"
-            android:textColor="@color/white" />
+            android:text="@string/p"
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
 
     </LinearLayout>

@@ -10,14 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +31,6 @@ import com.example.diabye.models.retrofitModels.FoodRetrofit;
 import com.example.diabye.viewmodels.NewEntryViewModel;
 import com.example.diabye.viewmodels.SearchFoodFragmentViewModel;
 
-import java.util.List;
-import java.util.Objects;
 
 
 public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofitListener {
@@ -47,11 +43,6 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
 
     }
 
-    public static SearchFoodFragment newInstance() {
-        SearchFoodFragment fragment = new SearchFoodFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +50,7 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchFoodBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
@@ -96,7 +87,6 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
         binding.toolbarSearchFoodFragment.setNavigationOnClickListener(view1 -> {
             NavHostFragment.findNavController(SearchFoodFragment.this)
                     .navigate(R.id.action_searchFoodFragment_to_newEntryFragment);
-            //requireActivity().onBackPressed();
         });
 
         searchFoodFragmentViewModel.getFoodRetrofitList().observe(getViewLifecycleOwner(), foodRetrofits -> {
