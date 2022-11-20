@@ -137,10 +137,8 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
 
     private void countAverages(MeasurementWithUserSettings measurementWithUserSettings) {
         float value = 0;
-        float hyperValue = 0;
         int hyperCount = 0;
         int hypoCount=0;
-        float hypoValue = 0;
         float sysvalue=0;
         int count=0;
         String category = statisticsFragmentViewModel.getMeasurementCategory().getValue();
@@ -151,11 +149,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
                     value+=m.getSugarLevel();
                     count++;
                     if(m.getSugarLevel()>= measurementWithUserSettings.getUserSettings().getHyperValue()){
-                        hyperValue++;
                         hyperCount++;
                     }
                     if(m.getSugarLevel()<= measurementWithUserSettings.getUserSettings().getHypoValue()){
-                        hypoCount++;
                         hypoCount++;
                     }
                 }
@@ -184,19 +180,9 @@ public class StatisticsFragment extends Fragment implements CustomSpinner.OnSpin
                 binding.avgSecondValuePerDay.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_baseline_error_outline_24),null,null,null);
                 binding.avgThirdValuePerDay.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_baseline_error_outline_24),null,null,null);
                 binding.avgFirstValueTv.setText(String.format(Locale.getDefault(),"%.0f mg/dL",value/count));
+                binding.AvgSecondValueTv.setText(String.valueOf(hyperCount));
+                binding.avgThirdValueTv.setText(String.valueOf(hypoCount));
 
-                if(hyperCount>0){
-                    binding.AvgSecondValueTv.setText(String.format(Locale.getDefault(),"%.1f",hyperValue/hyperCount));
-                }
-                else{
-                    binding.AvgSecondValueTv.setText("0");
-                }
-                if(hypoCount>0){
-                    binding.avgThirdValueTv.setText(String.format(Locale.getDefault(),"%.1f",hypoValue/hypoCount));
-                }
-                else{
-                    binding.avgThirdValueTv.setText("0");
-                }
                 if(binding.secondValueLinearLayout.getVisibility()== View.GONE){
                     binding.secondValueLinearLayout.setVisibility(View.VISIBLE);
                     binding.thirdValueLinearLayout.setVisibility(View.VISIBLE);
