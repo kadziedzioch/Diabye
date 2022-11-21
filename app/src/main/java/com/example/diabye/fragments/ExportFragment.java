@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -356,12 +356,11 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
     }
 
     private void openCsvFile(File file) {
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
+        Uri path = FileProvider.getUriForFile(requireActivity(), requireActivity().getApplicationContext().getPackageName() + ".provider", file);
         Intent csvIntent = new Intent(Intent.ACTION_VIEW);
-        csvIntent.setDataAndType(Uri.fromFile(file), "text/csv");
-        csvIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        csvIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        csvIntent.setDataAndType(path, "text/csv");
+
         try {
             startActivity(csvIntent);
         } catch (ActivityNotFoundException exception) {
@@ -371,12 +370,11 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
     }
 
     private void openPdfFile(File file) {
-      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-      StrictMode.setVmPolicy(builder.build());
-      builder.detectFileUriExposure();
+      Uri path = FileProvider.getUriForFile(requireActivity(), requireActivity().getApplicationContext().getPackageName() + ".provider", file);
       Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-      pdfIntent.setDataAndType(Uri.fromFile(file), "application/pdf");
-      pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      pdfIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      pdfIntent.setDataAndType(path, "application/pdf");
+
         try {
             startActivity(pdfIntent);
         } catch (ActivityNotFoundException exception) {

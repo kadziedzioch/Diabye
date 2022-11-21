@@ -108,8 +108,14 @@ public class PdfService {
                     byte[] bitmapData = stream.toByteArray();
                     ImageData imageData = ImageDataFactory.create(bitmapData);
                     Image image = new Image(imageData);
-                    Paragraph paragraph = new Paragraph("Figure 2. Distribution");
-                    document.add(paragraph);
+                    if(lineChart!=null){
+                        Paragraph paragraph = new Paragraph("Figure 2. Distribution");
+                        document.add(paragraph);
+                    }
+                    else{
+                        Paragraph paragraph = new Paragraph("Figure 1. Distribution");
+                        document.add(paragraph);
+                    }
                     document.add(image);
                     document.add(new Paragraph(""));
                     document.add(new Paragraph(""));
