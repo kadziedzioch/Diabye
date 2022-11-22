@@ -3,8 +3,11 @@ package com.example.diabye.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +80,6 @@ public class MainFragment extends Fragment {
                 binding.choMainTv.setText("0");
                 binding.fpuMainTv.setText("0");
             }
-
         });
         mainActivityViewModel.getUserSettings(sharedPrefRepository.getUserId());
         mainActivityViewModel.getHyperAndHypo().observe(getViewLifecycleOwner(), stringDoubleHashMap -> {
@@ -85,7 +87,28 @@ public class MainFragment extends Fragment {
             binding.hypoMainTv.setText(String.format(Locale.getDefault(),"%.0f",stringDoubleHashMap.get("hypo")));
         });
 
+        mainActivityViewModel.getMeasurementsFromLastThreeMonths().observe(getViewLifecycleOwner(), this::countHbA1c);
+
         return binding.getRoot();
+    }
+
+    private void countHbA1c(List<Measurement> measurements) {
+        double value =0;
+        int count = 0;
+        for(Measurement m:measurements){
+            if(m.getSugarLevel()>0){
+                value+= m.getSugarLevel();
+                count++;
+            }
+        }
+        if(count>10){
+            double average = value/count;
+            double estimatedHbA1c = (average+46.7)/28.7;
+            binding.hba1cTv.setText(String.format(Locale.getDefault(),"%.1f%%",estimatedHbA1c));
+        }
+        else{
+            binding.hba1cTv.setText("-");
+        }
     }
 
     private void calculateAndSetOtherFields(List<Measurement> measurements) {

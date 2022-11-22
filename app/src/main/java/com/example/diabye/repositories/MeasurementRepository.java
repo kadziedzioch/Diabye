@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.Measurement;
 import com.example.diabye.models.MeasurementWithFoods;
+import com.example.diabye.models.UserSettings;
 import com.example.diabye.utils.Constants;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ public class MeasurementRepository {
     private final MutableLiveData<List<Measurement>> measurements = new MutableLiveData<>();
     private final MutableLiveData<List<Measurement>> measurementsWithTimeInterval = new MutableLiveData<>();
     private final MutableLiveData<List<Food>> foods = new MutableLiveData<>();
+    private final MutableLiveData<List<Measurement>> measurementsFromThreeMonths = new MutableLiveData<>();
     private final FirebaseFirestore mFirestore;
 
     public MeasurementRepository() {
@@ -258,8 +261,46 @@ public class MeasurementRepository {
         allTask.addOnSuccessListener(unused -> {
             isDeletingSuccessful.postValue(true);
         });
+    }
 
+    public LiveData<List<Measurement>> getMeasurementsFromLastThreeMonths(UserSettings userSettings){
 
+        Date today = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 1);
+        Date secondDay = cal.getTime();
 
+        cal.setTime(today);
+        cal.add(Calendar.MONTH,-3);
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, -1);
+        Date firstDay = cal.getTime();
+
+        List<Measurement> measurementList = new ArrayList<>();
+        mFirestore.collection(Constants.MEASUREMENTS)
+                .whereEqualTo("userId", userSettings.getUserId())
+                .whereGreaterThan("datetime", firstDay)
+                .whereLessThan("datetime",secondDay)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                        Measurement m = queryDocumentSnapshot.toObject(Measurement.class);
+                        m.setMeasurementId(queryDocumentSnapshot.getId());
+                        measurementList.add(m);
+                    }
+                    measurementsFromThreeMonths.postValue(measurementList);
+                })
+                .addOnFailureListener(e -> {
+                    measurementsFromThreeMonths.postValue(null);
+                });
+
+        return measurementsFromThreeMonths;
     }
 }

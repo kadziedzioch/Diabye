@@ -75,7 +75,6 @@ public class ExportFragment extends Fragment implements CustomSpinner.OnSpinnerE
 
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

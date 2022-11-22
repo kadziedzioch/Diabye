@@ -2,6 +2,7 @@ package com.example.diabye.viewmodels;
 
 import android.util.Pair;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -29,6 +30,7 @@ public class MainActivityViewModel extends ViewModel {
     private final LiveData<Boolean> isDeletingSuccessful;
     private final LiveData<String> errorMessage;
     private final LiveData<List<Measurement>> measurements;
+    private final LiveData<List<Measurement>> measurementsFromLastThreeMonths;
     private final LiveData<UserSettings> userSettings;
     private final LiveData<List<Food>> foods;
     private final MediatorLiveData<HashMap<String,Double>> hyperAndHypo = new MediatorLiveData<>();
@@ -62,6 +64,13 @@ public class MainActivityViewModel extends ViewModel {
         measurementsWithFoods.addSource(foods, mFoods -> {
             setMeasurementWithFoodsList(measurements.getValue(),foods.getValue());
         });
+
+        measurementsFromLastThreeMonths = Transformations.switchMap(userSettings, measurementRepository::getMeasurementsFromLastThreeMonths);
+
+    }
+
+    public LiveData<List<Measurement>> getMeasurementsFromLastThreeMonths() {
+        return measurementsFromLastThreeMonths;
     }
 
     private void setMeasurementWithFoodsList(List<Measurement> mMeasurements, List<Food> mFoods) {
@@ -89,6 +98,7 @@ public class MainActivityViewModel extends ViewModel {
     public LiveData<List<MeasurementWithFoods>> getMeasurementsWithFoods() {
         return measurementsWithFoods;
     }
+
 
     public void setUserIdAndDate(UserSettings mUserSettings, Date mDate){
         if(mUserSettings ==null|| mDate==null){
