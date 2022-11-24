@@ -10,6 +10,7 @@
     <color name="main_blue">#629EF1</color>
     <color name="lighter_blue">#9CBFF1</color>
     <color name="very_light_blue">#BFD1EC</color>
+    <color name="extra_light_blue">#D9E1ED</color>
     <color name="background_color">#f2f7fd</color>
     <color name="darker_blue">#3C87EF</color>
     <color name="very_dark_blue">#19509E</color>

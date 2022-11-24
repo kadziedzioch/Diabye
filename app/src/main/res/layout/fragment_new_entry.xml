@@ -156,7 +156,38 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textColor="@color/dark_gray"
                     tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,TextContrastCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/extra_light_blue">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/predict_dosage_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/predict_dosage"
+                    android:textColor="@color/main_blue"
+                    android:textSize="16sp"
+                    tools:ignore="TextContrastCheck" />
+
+                <TextView
+                    android:id="@+id/predicted_dosage_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -195,6 +226,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textColor="@color/dark_gray"
                     tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
@@ -358,6 +390,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textColor="@color/dark_gray"
                     tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck,DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
@@ -396,6 +429,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textColor="@color/dark_gray"
                     tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
@@ -434,6 +468,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:textColor="@color/dark_gray"
                     tools:ignore="RtlSymmetry,TouchTargetSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
@@ -560,7 +595,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="#00FFFFFF"
                 android:gravity="center"
@@ -573,9 +607,9 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewNewEntry"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recyclerViewNewEntry" />
+                android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveMeasurmentsButton"
@@ -602,6 +636,17 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/main_blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

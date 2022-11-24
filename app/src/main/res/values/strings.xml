@@ -139,4 +139,5 @@
     <string name="averages_per_day">Averages per day</string>
     <string name="distribution">Distribution</string>
     <string name="estimated_hba1c">Estimated HbA1c</string>
+    <string name="predict_dosage">Predict dosage</string>
 </resources>

@@ -76,6 +76,48 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         recyclerView = binding.recyclerViewNewEntry;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        newEntryViewModel = new ViewModelProvider(requireActivity()).get(NewEntryViewModel.class);
+        binding.predictDosageButton.setOnClickListener(view13 -> {
+            if(validateDosageInput() && newEntryViewModel.getFoodList().getValue()!=null) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                SharedPrefRepository sharedPrefRepository = new SharedPrefRepository(requireActivity());
+                newEntryViewModel.searchAllMeasurementsWithFoods(sharedPrefRepository.getUserId());
+            }
+        });
+
+        newEntryViewModel.getAllMeasurementsWithFoods().observe(getViewLifecycleOwner(), measurementWithFoodsList -> {
+            if(!TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim())){
+                double sugarLevel = Double.parseDouble(binding.sugarLevelET.getText().toString().trim());
+                double sysPressure = Double.parseDouble(binding.sysPressureET.getText().toString().trim());
+                double diasPressure = Double.parseDouble(binding.diasPressureET.getText().toString().trim());
+                double activity = Double.parseDouble(binding.activityET.getText().toString().trim());
+                double carbs = 0;
+                double proteins = 0;
+                double fats = 0;
+                if(newEntryViewModel.getFoodList().getValue()!=null){
+                    for(Food f: newEntryViewModel.getFoodList().getValue()){
+                        carbs+=f.getCarbs();
+                        proteins+=f.getProtein();
+                        fats+=f.getFats();
+                    }
+                    double [] query = new double[]{sugarLevel,activity,sysPressure,diasPressure,fats,proteins,carbs};
+                    newEntryViewModel.predictDosage(measurementWithFoodsList,query);
+                }
+            }
+        });
+        newEntryViewModel.getPredictedDosage().observe(getViewLifecycleOwner(), dosage -> {
+            if(dosage!=null){
+                binding.progressBar.setVisibility(View.GONE);
+                binding.predictedDosageTv.setText(String.format(Locale.getDefault(),"Predicted meal insulin dosage: %.1f I.U.", dosage));
+            }
+        });
+        newEntryViewModel.getException().observe(getViewLifecycleOwner(), exception -> {
+            if(exception!=null && !TextUtils.isEmpty(exception.getMessage())){
+                binding.progressBar.setVisibility(View.GONE);
+                AppUtils.showMessage(requireActivity(),binding.saveMeasurmentsButton,exception.getMessage(),true);
+            }
+        });
         return view;
     }
 
@@ -91,7 +133,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         sharedPrefRepository = new SharedPrefRepository(requireActivity());
-        newEntryViewModel = new ViewModelProvider(requireActivity()).get(NewEntryViewModel.class);
+
         newEntryViewModel.getFoodList().observe(getViewLifecycleOwner(), foodRetrofits -> {
             if(foodRetrofits !=null){
                 if(foodList!=null){
@@ -112,6 +154,15 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         binding.addNewFoodButton.setOnClickListener(view12 -> {
             newEntryViewModel.addDateAndTime(binding.addDateButton.getText().toString(),
                     binding.addTimeButton.getText().toString());
+            if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
+                newEntryViewModel.getAllMeasurementsWithFoods().getValue().clear();
+            }
+            if(newEntryViewModel.getPredictedDosage().getValue()!=null){
+                newEntryViewModel.clearPredictedDosage();
+            }
+            if(newEntryViewModel.getException().getValue()!=null){
+                newEntryViewModel.clearException();
+            }
             NavHostFragment.findNavController(NewEntryFragment.this)
                     .navigate(R.id.action_newEntryFragment_to_searchFoodFragment);
         });
@@ -146,6 +197,8 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             }
         });
 
+
+
         mainActivityViewModel.getIsSavingSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
             if(isSuccessful!=null&& isSuccessful){
                 if(newEntryViewModel.getFoodList().getValue() !=null){
@@ -158,6 +211,15 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
                     newEntryViewModel.clearDate();
                 }
                 mainActivityViewModel.clearIsSavingSuccessful();
+                if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
+                    newEntryViewModel.getAllMeasurementsWithFoods().getValue().clear();
+                }
+                if(newEntryViewModel.getPredictedDosage().getValue()!=null){
+                    newEntryViewModel.clearPredictedDosage();
+                }
+                if(newEntryViewModel.getException().getValue()!=null){
+                    newEntryViewModel.clearException();
+                }
                 requireActivity().onBackPressed();
             }
             else if(isSuccessful!=null&&!isSuccessful){
@@ -167,6 +229,36 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         });
 
 
+    }
+
+    private boolean validateDosageInput(){
+        if(binding.sugarLevelET.getText().toString().equals("") || binding.sugarLevelET.getText()==null){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter sugar level!",true);
+            return false;
+        }
+        if(binding.sysPressureET.getText().toString().equals("") || binding.sysPressureET.getText()==null){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter systolic pressure!",true);
+            return false;
+        }
+        if(TextUtils.isEmpty(binding.diasPressureET.getText().toString().trim()) || binding.diasPressureET.getText()==null){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter diastolic pressure!",true);
+            return false;
+
+        }
+        if(binding.activityET.getText().toString().equals("") || binding.activityET.getText()==null){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter activity!",true);
+            return false;
+        }
+        if(newEntryViewModel.getFoodList().getValue()!=null && newEntryViewModel.getFoodList().getValue().size()==0){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill what you have eaten",true);
+            return false;
+        }
+
+        if(newEntryViewModel.getFoodList().getValue()==null){
+            AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill what you have eaten",true);
+            return false;
+        }
+        return true;
     }
 
 
@@ -248,6 +340,15 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             }
             if(newEntryViewModel.getDate().getValue()!=null){
                 newEntryViewModel.clearDate();
+            }
+            if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
+                newEntryViewModel.getAllMeasurementsWithFoods().getValue().clear();
+            }
+            if(newEntryViewModel.getPredictedDosage().getValue()!=null){
+                newEntryViewModel.clearPredictedDosage();
+            }
+            if(newEntryViewModel.getException().getValue()!=null){
+                newEntryViewModel.clearException();
             }
             NavHostFragment.findNavController(NewEntryFragment.this)
                     .navigate(R.id.action_newEntryFragment_to_mainFragment);

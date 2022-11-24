@@ -85,8 +85,9 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
         });
 
         binding.toolbarSearchFoodFragment.setNavigationOnClickListener(view1 -> {
-            NavHostFragment.findNavController(SearchFoodFragment.this)
-                    .navigate(R.id.action_searchFoodFragment_to_newEntryFragment);
+//            NavHostFragment.findNavController(SearchFoodFragment.this)
+//                    .navigate(R.id.action_searchFoodFragment_to_newEntryFragment);
+            requireActivity().onBackPressed();
         });
 
         searchFoodFragmentViewModel.getFoodRetrofitList().observe(getViewLifecycleOwner(), foodRetrofits -> {
