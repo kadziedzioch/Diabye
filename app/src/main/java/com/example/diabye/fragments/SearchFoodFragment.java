@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.example.diabye.R;
 import com.example.diabye.adapter.FoodRetrofitRecyclerViewAdapter;
 import com.example.diabye.databinding.DialogAddFoodBinding;
 import com.example.diabye.databinding.FragmentSearchFoodBinding;
 import com.example.diabye.listeners.RecyclerFoodRetrofitListener;
 import com.example.diabye.models.Food;
 import com.example.diabye.models.retrofitModels.FoodRetrofit;
-import com.example.diabye.viewmodels.NewEntryViewModel;
+import com.example.diabye.viewmodels.SharedViewModel;
 import com.example.diabye.viewmodels.SearchFoodFragmentViewModel;
 
 
@@ -38,7 +36,7 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
     private RecyclerView recyclerView;
     private FragmentSearchFoodBinding binding;
     private FoodRetrofitRecyclerViewAdapter recyclerViewAdapter;
-    private NewEntryViewModel newEntryViewModel;
+    private SharedViewModel sharedViewModel;
     public SearchFoodFragment() {
 
     }
@@ -67,8 +65,8 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
 
         SearchFoodFragmentViewModel searchFoodFragmentViewModel= new ViewModelProvider(this)
                 .get(SearchFoodFragmentViewModel.class);
-        newEntryViewModel = new ViewModelProvider(requireActivity())
-                .get(NewEntryViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class);
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -148,7 +146,7 @@ public class SearchFoodFragment extends Fragment implements RecyclerFoodRetrofit
                     myunit = food.getNf_serving_size_unit();
                 }
                 newFood.setUnit(myunit);
-                newEntryViewModel.addFoodToList(newFood);
+                sharedViewModel.addFoodToList(newFood);
                 dialog.dismiss();
                 requireActivity().onBackPressed();
             }

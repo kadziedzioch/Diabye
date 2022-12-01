@@ -145,12 +145,13 @@ public class InsulinDosageService {
 
         resultList.sort(Comparator.comparingDouble(Result::getDistance));
 
-        if(resultList.size()<10){
+        int k=10;
+        if(resultList.size()<k){
             throw new NotEnoughDataException("There are not enough measurements to count dosage");
         }
 
         List<Double> dosages = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < k; i++) {
             dosages.add(resultList.get(i).getInsulinDosage());
         }
         return dosages;

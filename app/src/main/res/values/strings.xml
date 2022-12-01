@@ -110,7 +110,7 @@
     <string name="select_document_type">Select document type</string>
     <string name="append_blood_sugar">Append blood sugar</string>
     <string name="append_meal_insulin">Append meal insulin</string>
-    <string name="append_correct_insulin">Append correct insulin</string>
+    <string name="append_correct_insulin">Append correctional insulin</string>
     <string name="append_temporary_bolus">Append temporary basal</string>
     <string name="append_long_insulin">Append long insulin</string>
     <string name="append_food_info">Append food info</string>

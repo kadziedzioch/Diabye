@@ -31,6 +31,7 @@ import com.example.diabye.repositories.SharedPrefRepository;
 import com.example.diabye.utils.AppUtils;
 import com.example.diabye.viewmodels.MainActivityViewModel;
 import com.example.diabye.viewmodels.NewEntryViewModel;
+import com.example.diabye.viewmodels.SharedViewModel;
 
 
 import java.sql.Timestamp;
@@ -49,17 +50,17 @@ import java.util.Objects;
 public class NewEntryFragment extends Fragment implements RecyclerFoodListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private FragmentNewEntryBinding binding;
-    private NewEntryViewModel newEntryViewModel;
+    private SharedViewModel sharedViewModel;
     private RecyclerView recyclerView;
     private FoodRecyclerViewAdapter recyclerViewAdapter;
     private MainActivityViewModel mainActivityViewModel;
+    private NewEntryViewModel newEntryViewModel;
     private SharedPrefRepository sharedPrefRepository;
     private List<Food> foodList;
 
     public NewEntryFragment() {
 
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,9 +78,10 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        newEntryViewModel = new ViewModelProvider(requireActivity()).get(NewEntryViewModel.class);
+        newEntryViewModel = new ViewModelProvider(NewEntryFragment.this).get(NewEntryViewModel.class);
+
         binding.predictDosageButton.setOnClickListener(view13 -> {
-            if(validateDosageInput() && newEntryViewModel.getFoodList().getValue()!=null) {
+            if(validateDosageInput() && sharedViewModel.getFoodList().getValue()!=null) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 SharedPrefRepository sharedPrefRepository = new SharedPrefRepository(requireActivity());
                 newEntryViewModel.searchAllMeasurementsWithFoods(sharedPrefRepository.getUserId());
@@ -95,8 +97,8 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
                 double carbs = 0;
                 double proteins = 0;
                 double fats = 0;
-                if(newEntryViewModel.getFoodList().getValue()!=null){
-                    for(Food f: newEntryViewModel.getFoodList().getValue()){
+                if(sharedViewModel.getFoodList().getValue()!=null){
+                    for(Food f: sharedViewModel.getFoodList().getValue()){
                         carbs+=f.getCarbs();
                         proteins+=f.getProtein();
                         fats+=f.getFats();
@@ -132,17 +134,18 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         binding.addDateButton.setOnClickListener(this::showDatePickerDialog);
 
         mainActivityViewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedPrefRepository = new SharedPrefRepository(requireActivity());
 
-        newEntryViewModel.getFoodList().observe(getViewLifecycleOwner(), foodRetrofits -> {
+        sharedViewModel.getFoodList().observe(getViewLifecycleOwner(), foodRetrofits -> {
             if(foodRetrofits !=null){
                 if(foodList!=null){
                     foodList.clear();
                 }
                 foodList.addAll(foodRetrofits);
-                String CHO = String.format(Locale.getDefault(),"%.1f CHO",newEntryViewModel.calculateCHO());
-                String FPU = String.format(Locale.getDefault(),"%.1f FPU",newEntryViewModel.calculateFPU());
-                String kcal = String.format(Locale.getDefault(),"%.0f kcal",newEntryViewModel.calculateCalories());
+                String CHO = String.format(Locale.getDefault(),"%.1f CHO", sharedViewModel.calculateCHO());
+                String FPU = String.format(Locale.getDefault(),"%.1f FPU", sharedViewModel.calculateFPU());
+                String kcal = String.format(Locale.getDefault(),"%.0f kcal", sharedViewModel.calculateCalories());
                 binding.CHOValueTextView.setText(CHO);
                 binding.FPUvalueTextView.setText(FPU);
                 binding.caloriesValueTextView.setText(kcal);
@@ -152,7 +155,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
         });
         setUpEditTexts();
         binding.addNewFoodButton.setOnClickListener(view12 -> {
-            newEntryViewModel.addDateAndTime(binding.addDateButton.getText().toString(),
+            sharedViewModel.addDateAndTime(binding.addDateButton.getText().toString(),
                     binding.addTimeButton.getText().toString());
             if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
                 newEntryViewModel.getAllMeasurementsWithFoods().getValue().clear();
@@ -201,14 +204,14 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
         mainActivityViewModel.getIsSavingSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
             if(isSuccessful!=null&& isSuccessful){
-                if(newEntryViewModel.getFoodList().getValue() !=null){
-                    newEntryViewModel.getFoodList().getValue().clear();
+                if(sharedViewModel.getFoodList().getValue() !=null){
+                    sharedViewModel.getFoodList().getValue().clear();
                 }
-                if(newEntryViewModel.getTime().getValue()!=null){
-                    newEntryViewModel.clearTime();
+                if(sharedViewModel.getTime().getValue()!=null){
+                    sharedViewModel.clearTime();
                 }
-                if(newEntryViewModel.getDate().getValue()!=null){
-                    newEntryViewModel.clearDate();
+                if(sharedViewModel.getDate().getValue()!=null){
+                    sharedViewModel.clearDate();
                 }
                 mainActivityViewModel.clearIsSavingSuccessful();
                 if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
@@ -249,12 +252,12 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             AppUtils.showMessage(requireActivity(),binding.addTimeButton,"Enter activity!",true);
             return false;
         }
-        if(newEntryViewModel.getFoodList().getValue()!=null && newEntryViewModel.getFoodList().getValue().size()==0){
+        if(sharedViewModel.getFoodList().getValue()!=null && sharedViewModel.getFoodList().getValue().size()==0){
             AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill what you have eaten",true);
             return false;
         }
 
-        if(newEntryViewModel.getFoodList().getValue()==null){
+        if(sharedViewModel.getFoodList().getValue()==null){
             AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill what you have eaten",true);
             return false;
         }
@@ -291,11 +294,11 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
             }
         }
 
-        if(newEntryViewModel.getFoodList().getValue()!=null){
+        if(sharedViewModel.getFoodList().getValue()!=null){
             if(TextUtils.isEmpty(binding.sugarLevelET.getText().toString().trim()) && TextUtils.isEmpty(binding.mealinsulinET.getText().toString().trim())
                     && TextUtils.isEmpty(binding.corrInsulinET.getText().toString().trim()) && TextUtils.isEmpty(binding.sysPressureET.getText().toString().trim())
                     && TextUtils.isEmpty(binding.activityET.getText().toString().trim()) && TextUtils.isEmpty(binding.tempBasalET.getText().toString().trim())
-                    && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim()) && newEntryViewModel.getFoodList().getValue().size()==0){
+                    && TextUtils.isEmpty(binding.longInsulinET.getText().toString().trim()) && sharedViewModel.getFoodList().getValue().size()==0){
                 AppUtils.showMessage(requireActivity(),binding.addTimeButton,"You need to fill at least one field",true);
                 return false;
             }
@@ -314,17 +317,17 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     private void setUpEditTexts(){
 
-        if(newEntryViewModel.getDate().getValue()==null || Objects.equals(newEntryViewModel.getDate().getValue(), "")){
+        if(sharedViewModel.getDate().getValue()==null || Objects.equals(sharedViewModel.getDate().getValue(), "")){
             binding.addDateButton.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
         else{
-            binding.addDateButton.setText(newEntryViewModel.getDate().getValue());
+            binding.addDateButton.setText(sharedViewModel.getDate().getValue());
         }
-        if(newEntryViewModel.getTime().getValue()==null|| Objects.equals(newEntryViewModel.getTime().getValue(), "")){
+        if(sharedViewModel.getTime().getValue()==null|| Objects.equals(sharedViewModel.getTime().getValue(), "")){
             binding.addTimeButton.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
         }
         else{
-            binding.addTimeButton.setText(newEntryViewModel.getTime().getValue());
+            binding.addTimeButton.setText(sharedViewModel.getTime().getValue());
         }
 
     }
@@ -332,23 +335,23 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
     private void setUpToolBar(){
         Toolbar toolbar = binding.toolbarId;
         toolbar.setNavigationOnClickListener(view1 -> {
-            if(newEntryViewModel.getFoodList().getValue() !=null){
-                newEntryViewModel.getFoodList().getValue().clear();
+            if(sharedViewModel.getFoodList().getValue() !=null){
+                sharedViewModel.getFoodList().getValue().clear();
             }
-            if(newEntryViewModel.getTime().getValue()!=null){
-                newEntryViewModel.clearTime();
+            if(sharedViewModel.getTime().getValue()!=null){
+                sharedViewModel.clearTime();
             }
-            if(newEntryViewModel.getDate().getValue()!=null){
-                newEntryViewModel.clearDate();
+            if(sharedViewModel.getDate().getValue()!=null){
+                sharedViewModel.clearDate();
             }
-            if(newEntryViewModel.getAllMeasurementsWithFoods().getValue() !=null){
-                newEntryViewModel.getAllMeasurementsWithFoods().getValue().clear();
+            if(sharedViewModel.getAllMeasurementsWithFoods().getValue() !=null){
+                sharedViewModel.getAllMeasurementsWithFoods().getValue().clear();
             }
-            if(newEntryViewModel.getPredictedDosage().getValue()!=null){
-                newEntryViewModel.clearPredictedDosage();
+            if(sharedViewModel.getPredictedDosage().getValue()!=null){
+                sharedViewModel.clearPredictedDosage();
             }
-            if(newEntryViewModel.getException().getValue()!=null){
-                newEntryViewModel.clearException();
+            if(sharedViewModel.getException().getValue()!=null){
+                sharedViewModel.clearException();
             }
             NavHostFragment.findNavController(NewEntryFragment.this)
                     .navigate(R.id.action_newEntryFragment_to_mainFragment);
@@ -404,7 +407,7 @@ public class NewEntryFragment extends Fragment implements RecyclerFoodListener, 
 
     @Override
     public void onDeleteButtonClicked(Food food) {
-        newEntryViewModel.deleteFood(food);
+        sharedViewModel.deleteFood(food);
     }
 
     public void showTimePickerDialog(View v) {

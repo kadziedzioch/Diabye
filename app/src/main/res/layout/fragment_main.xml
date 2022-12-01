@@ -458,7 +458,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
+                android:paddingBottom="60dp">
 
 
                 <androidx.cardview.widget.CardView
@@ -476,8 +476,8 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawablePadding="5dp"
                             android:padding="5dp"
                             android:text="@string/estimated_hba1c"
@@ -489,8 +489,8 @@
                             android:id="@+id/hba1c_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:padding="5dp"/>
+                            android:padding="5dp"
+                            android:textSize="16sp" />
 
 
                     </LinearLayout>
